@@ -1,0 +1,597 @@
+{
+    "name": "SecBenchmarkEnforce",
+    "properties": {
+        "displayName": "NFCU Security Benchmark Enforce",
+        "description": "This initiative contains Data privacy and Protection policies involving Logging, Data transfers, Versioning and recoverability security controls for Azure Resources.",
+        "metadata": [
+            {
+                "category": "Security Benchmark",
+                "effect": "enforce",
+                "version": "1.0"
+            }
+        ],
+        "policyDefinitionGroups": [
+            {
+                "name": "Protect and Secure Data Privacy and Protection Enforce"
+            },
+            {
+                "name": "Protect and Secure Network and Endpoint Security Enforce"
+            },
+            {
+                "name": "Manage and Govern Application Security Enforce"
+            },
+            {
+                "name": "Visibility and Monitoring Cyber Defense Enforce"
+            }
+        ],
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Define the effect of the Policy as Audit or Deny"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny"
+                ],
+                "defaultValue": "Deny"
+            },
+            "effectIfNotExists": {
+              "type": "String",
+              "metadata": {
+                "displayName": "effectIfNotExists",
+                "description": "Define the effect of the Policy as Audit or Deny"
+              },
+              "allowedValues": [
+                "AuditIfNotExists",
+                "DeployIfNotExists",
+                "Disabled"
+              ],
+              "defaultValue": "DeployIfNotExists"
+            },
+            "effectIfNotExistsNoAudit": {
+              "type": "string",
+              "metadata": {
+                  "displayName": "effectIfNotExistsNoAudit",
+                  "description": "Define the effect of the Policy as Audit or Deny"
+              },
+              "allowedValues": [
+                  "DeployIfNotExists",
+                  "Disabled"
+              ],
+              "defaultValue": "DeployIfNotExists"
+            },
+            "retentionDays": {
+              "type": "String",
+              "metadata": {
+                "description": "The value in days of the retention period (0 indicates unlimited retention)",
+                "displayName": "Retention days (optional, 180 days if unspecified)"
+              },
+              "defaultValue": "180"
+            },
+            "storageAccountsResourceGroup": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Resource group name for storage accounts",
+                "description": "Auditing writes database events to an audit log in your Azure Storage account (a storage account will be created in each region where a SQL Server is created that will be shared by all servers in that region). Important - for proper operation of Auditing do not delete or rename the resource group or the storage accounts."
+              }
+            },
+            "login": {
+              "type": "String",
+              "metadata": {
+                "displayName": "SQL Server Active Directory Admin login"
+              },
+              "defaultValue": "AZRSQL-SQLSERVERADMINS"
+            },
+            "sid": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "SQL Server Active Directory Admin SID"
+                },
+                "defaultvalue": "a5edd687-0a63-4a64-8825-199566e31f31"
+            },
+            "tenantId": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "SQL Server Active Directory Admin SID"
+                },
+                "defaultvalue": "4cb791f1-02d1-4a4e-8610-911ee57bb08c"
+            },
+            "logAnalyticsWorkspace": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Log Analytics Workspace"
+                },
+                "defaultvalue": "/subscriptions/ed2ae5ee-95c1-4ded-9204-577a308ce2c5/resourcegroups/nfcu-hub-aa-rg/providers/microsoft.operationalinsights/workspaces/nfcu-hub-oms-workspace"
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "AllauthorizationrulesexceptRootManageSharedAccessKeyshouldberemovedfromEventHubnamespace",
+                "policyDefinitionName": "b278e460-7cfc-4451-8294-cccc40a940d7",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                },
+                "groupNames": [
+                    "Manage and Govern Application Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "AllauthorizationrulesexceptRootManageSharedAccessKeyshouldberemovedfromServiceBusnamespace",
+                "policyDefinitionName": "a1817ec0-a368-432a-8057-8371e17ac6ee",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                },
+                "groupNames": [
+                    "Manage and Govern Application Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "WebSitesaccessibleoverHTTPSv1.0",
+                "policyDefinitionName": "Web Sites accessible over HTTPS v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    },
+                    "kind": {
+                        "value": [
+                            "api",
+                            "app",
+                            "functionapp"
+                        ]
+                    },
+                    "httpsOnly": {
+                        "value": [
+                            "true",
+                            "false"
+                        ]
+                    },
+                    "clientCertEnabled": {
+                        "value": [
+                            true,
+                            false
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Manage and Govern Application Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "RedisCachesecuresettingsv1.0",
+                "policyDefinitionName": "Redis Cache secure settings v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    },
+                    "enableNonSslPort": {
+                        "value": [
+                            true,
+                            false
+                        ]
+                    },
+                    "minimumTlsVersion": {
+                        "value": [
+                            "1.2"
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Manage and Govern Application Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "RemotedebuggingturnedoffforFunctionWebandAPIAppsv1.0",
+                "policyDefinitionName": "Remote debugging turned off for Function Web and API Apps v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "kind": {
+                        "value": [
+                            "api",
+                            "app",
+                            "functionapp"
+                        ]
+                    },
+                    "remoteDebuggingEnabled": {
+                        "value": [
+                            false
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Manage and Govern Application Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "KeyVaultSecureSettingsV1.0",
+                "policyDefinitionName": "Key Vault Secure Settings v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    },
+                    "enabledForTemplateDeployment": {
+                        "value": [
+                            true,
+                            false
+                        ]
+                    },
+                    "enablePurgeProtection": {
+                        "value": [
+                            true
+                        ]
+                    },
+                    "enabledForDiskEncryption": {
+                        "value": [
+                            true,
+                            false
+                        ]
+                    },
+                    "enableSoftDelete": {
+                        "value": [
+                            true
+                        ]
+                    },
+                    "enabledForDeployment": {
+                        "value": [
+                            true,
+                            false
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "DeployAdvanceddatasecurityonSQLserver",
+                "policyDefinitionName": "6134c3db-786f-471e-87bc-8f479dc890f6",
+                "parameters": {},
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "AzureActiveDirectoryadministratorforSQLserversV1.0",
+                "policyDefinitionName": "Azure Active Directory administrator for SQL servers v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "login": {
+                        "value": "[parameters('login')]"
+                    },
+                    "sid": {
+                        "value": "[parameters('sid')]"
+                    },
+                    "tenantId": {
+                        "value": "[parameters('tenantId')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "DeployAuditingonSQLServers",
+                "policyDefinitionName": "f4c68484-132f-41f9-9b6d-3e4b1cb55036",
+                "parameters": {
+                    "retentionDays": {
+                        "value": "[parameters('retentionDays')]"
+                    },
+                    "storageAccountsResourceGroup": {
+                        "value": "[parameters('storageAccountsResourceGroup')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "Automationaccountvariablesshouldbeencrypted",
+                "policyDefinitionName": "3657f5a0-770e-44a3-b44e-9431ba1e9735",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "DeployAzureDefenderV1.0",
+                "policyDefinitionName": "Deploy Azure Defender v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExistsNoAudit')]"
+                    },
+                    "isEnabled": {
+                        "value": [
+                            true
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "SoftDeleteonBlobStorageaccountsV2.0",
+                "policyDefinitionName": "Soft Delete on Blob Storage accounts V2.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "retentionDays": {
+                        "value": 180
+                    },
+                    "isHnsEnabled": {
+                        "value": [
+                            false,
+                            null
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "FileStorageEncryptionV2.0",
+                "policyDefinitionName": "File Storage Encryption v2.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "Securetransfertostorageaccountsshouldbeenabled",
+                "policyDefinitionName": "404c3081-a854-4457-ae30-26a93ef643f9",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "SQLServerVersionSettingsV1.0",
+                "policyDefinitionName": "SQL Server Version Settings v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    },
+                    "version": {
+                        "value": [
+                            "12.0"
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "EnableTransparentDataEncryptiononSQLdatabasesV1.0",
+                "policyDefinitionName": "Enable Transparent Data Encryption on SQL databases v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "transparentDataEncryption.status": {
+                        "value": [
+                            "Enabled"
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "DiagnosticSettingsforDataFactoryFactoriesv1.0",
+                "policyDefinitionName": "Diagnostic Settings for Data Factory Factories v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "workspaceId": {
+                        "value": "[parameters('logAnalyticsWorkspace')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+                        {
+                "policyDefinitionReferenceId": "DiagnosticSettingsforDataLakeStoreAccounts1.0",
+                "policyDefinitionName": "Diagnostic Settings for Data Lake Store Accounts v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "workspaceId": {
+                        "value": "[parameters('logAnalyticsWorkspace')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "DiagnosticSettingsforNetworkApplicationGateways1.0",
+                "policyDefinitionName": "Diagnostic Settings for Network Application Gateways v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "workspaceId": {
+                        "value": "[parameters('logAnalyticsWorkspace')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "DiagnosticSettingsforRecoveryServicesVaults1.0",
+                "policyDefinitionName": "Diagnostic Settings for RecoveryServices Vaults v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "workspaceId": {
+                        "value": "[parameters('logAnalyticsWorkspace')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "DiagnosticSettingsforWebSitesv1.0",
+                "policyDefinitionName": "Diagnostic Settings for Web Sites v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "workspaceId": {
+                        "value": "[parameters('logAnalyticsWorkspace')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Data Privacy and Protection Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "MySQLSSLEnforcementSettingsV1.0",
+                "policyDefinitionName": "MySQL SSL Enforcement Settings v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    },
+                    "sslEnforcement": {
+                        "value": [
+                            "Enabled"
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Network and Endpoint Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "NetworkApplicationGatewaySecureSettingsV1.0",
+                "policyDefinitionName": "Network Application Gateway Secure Settings v1.0",
+                "parameters": {
+                    "webApplicationFirewallConfiguration.enabled": {
+                        "value": [
+                            true
+                        ]
+                    },
+                    "sku.tier": {
+                        "value": [
+                            "WAF_v2",
+                            "WAF"
+                        ]
+                    },
+                    "webApplicationFirewallConfiguration.firewallMode": {
+                        "value": [
+                            "Prevention"
+                        ]
+                    },
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Network and Endpoint Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "PortaccessfromtheInternetshouldbeblockedV1.0",
+                "policyDefinitionName": "Port access from the Internet should be blocked v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    },
+                    "destinationPortRange": {
+                        "value": [
+                            22,
+                            3389
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Network and Endpoint Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "SQLManagedInstancessecuresettingsV1.0",
+                "policyDefinitionName": "SQL Managed Instances secure settings v1.0",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    },
+                    "publicDataEndpointEnabled": {
+                        "value": [
+                            true
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Network and Endpoint Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "LatestTLSversionshouldbeusedintheAppV1.0",
+                "policyDefinitionName": "Latest TLS version should be used in the App v1.0",
+                "parameters": {
+                    "minTlsVersion": {
+                        "value": [
+                            "1.2"
+                        ]
+                    },
+                    "effect": {
+                        "value": "[parameters('effectIfNotExists')]"
+                    },
+                    "kind": {
+                        "value": [
+                            "api",
+                            "app",
+                            "functionapp"
+                        ]
+                    }
+                },
+                "groupNames": [
+                    "Protect and Secure Network and Endpoint Security Enforce"
+                ]
+            },
+            {
+                "policyDefinitionReferenceId": "VirtualmachinesshouldbemigratedtonewAzureResourceManagerresources",
+                "policyDefinitionName": "1d84d5fb-01f6-4d12-ba4f-4a26081d403d",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                },
+                "groupNames": [
+                    "Visibility and Monitoring Cyber Defense Enforce"
+                ]
+            }
+        ]
+    }
+}

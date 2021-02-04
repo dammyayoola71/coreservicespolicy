@@ -1,0 +1,59 @@
+pool:
+  name: Cloud Pool
+  demands: Agent.OS -equals Windows_NT
+
+variables:
+  inititativeDefRootFolder: $(Pipeline.Workspace)
+  managementGroupName: "4cb791f1-02d1-4a4e-8610-911ee57bb08c"
+  markdownTemplateName : "initiative.doc.ps1"
+  wikiRootFolder: $(Pipeline.Workspace)
+  wikiFolder: "/s/NFCU-Cloud-Infrastructure.wiki/Cloud-Infrastructure-Compliance/Cloud-Governance/Azure-Policy/Initiative-Definitions"
+
+# specific path build
+trigger:
+  - none
+
+schedules:
+- cron: "0 3 * * Sun"
+  displayName: Sunday 3:00 AM (UTC) weekly latest version build
+  branches:
+    include:
+    - master
+  always: true
+
+resources:
+ repositories:
+   - repository: Wiki
+     type: git
+     name: Cloud Team/NFCU-Cloud-Infrastructure.wiki
+     ref: master
+
+steps:
+- checkout: self
+- checkout: Wiki
+  clean: true
+  persistCredentials: true
+
+- task: PowerShell@2
+  name: install_modules
+  displayName: 'Install PSDocs'            
+  enabled: true
+  inputs:
+    targettype: 'inline'
+    script: |
+      Install-Module -Name PSDocs -Scope CurrentUser -Force
+      Get-InstalledModule
+
+- task: AzurePowerShell@4
+  displayName: 'Create Policy Definition'
+  inputs:
+    azureSubscription: AzureRM-INFOSEC-SDBX
+    ScriptPath: 'Core_Services/Libraries/Tools/Az/Create-InitiativeDoc.ps1'
+    ScriptArguments: '-initiativeDefRootFolder $(inititativeDefRootFolder)
+                      -managementGroupName $(managementGroupName)
+                      -markdownTemplateName $(markdownTemplateName)
+                      -wikiRootFolder $(wikiRootFolder)
+                      -wikiFolder $(wikiFolder)'
+    azurePowerShellVersion: LatestVersion
+
+

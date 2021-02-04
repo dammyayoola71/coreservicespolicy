@@ -1,0 +1,60 @@
+{
+  "Name": "Network.virtualNetworks.subnets.networkSecurityGroup",
+  "properties": {
+    "displayName": "Network.virtualNetworks.subnets.networkSecurityGroup",
+    "description": "Policy to determine if a Virtual Network Subnet has Network Security Group assigned",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allof": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "value": "[not(empty(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup')))]",
+            "notIn": "[parameters('subnets.star.networkSecurityGroup')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "subnets.star.networkSecurityGroup": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Subnet Network Security Group",
+          "description": "Evaluate whether a Virtual Network Subnet has a Network Security Group assigned, true, or not, false",
+          "controlID": "N/A",
+          "risk": "Operational Risk"
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": [
+          true,
+          false
+        ]
+      }
+    }
+  }
+}

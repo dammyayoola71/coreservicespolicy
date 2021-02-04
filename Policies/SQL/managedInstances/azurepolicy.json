@@ -1,0 +1,68 @@
+{
+  "Name": "SQL Managed Instances secure settings",
+  "properties": {
+    "displayName": "SQL Managed Instances secure settings",
+    "description": "Policy for monitoring whether a SQL Managed Instance has the Public Data Endpoint Enabled, true, or not, false.",
+    "mode": "All",
+    "metadata": {
+      "category": "Sql",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allof": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/managedInstances"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+              },
+              {
+                "field": "Microsoft.Sql/managedInstances/publicDataEndpointEnabled",
+                "notIn": "[parameters('publicDataEndpointEnabled')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "publicDataEndpointEnabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Public Data Endpoint Enabled",
+          "description": "Policy for monitoring whether a SQL Managed Instance has the Public Data Endpoint Enabled, true, or not, false.",
+          "controlID": "N/A",
+          "risk": "Intrusion"
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": [
+          true,
+          false
+        ]
+      }
+    }
+  }
+}

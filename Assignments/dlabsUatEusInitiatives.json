@@ -1,0 +1,25 @@
+{
+    "name": "DLABS UAT EUS",
+    "scope": {
+        "type": "Subscription",
+        "Name": "NFCU-SPOKE-DLABS-UAT-PAAS-EUS" 
+    },
+    "globalParameters": {
+         "storageAccountsResourceGroup": {
+            "value": "NetworkWatcherRG"
+        },
+        "logAnalyticsWorkspace": {
+            "value": "/subscriptions/ed2ae5ee-95c1-4ded-9204-577a308ce2c5/resourcegroups/nfcu-hub-oms-rg/providers/microsoft.operationalinsights/workspaces/nfcu-digitallabs-oms-workspace"
+        }
+    },
+    "policies": [
+    ],
+    "initiatives": [
+        {
+            "initiativeName": "SecBenchmarkEnforce v1.0",
+            "parameters": {
+
+            }
+        }
+    ]
+}

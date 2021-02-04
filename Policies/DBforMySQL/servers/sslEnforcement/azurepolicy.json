@@ -1,0 +1,60 @@
+{
+  "Name": "MySQL SSL Enforcement Settings",
+  "properties": {
+    "displayName": "MySQL SSL Enforcement Settings",
+    "description": "Policy for monitoring whether the MySQL database enforces SSL connections, true, or doesn't, false.",
+    "mode": "All",
+    "metadata": {
+      "category": "DBforMySQL",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allof": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DBforMySQL/servers"
+          },
+          {
+            "field": "Microsoft.DBforMySQL/servers/sslEnforcement",
+            "notIn": "[parameters('sslEnforcement')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "sslEnforcement": {
+        "type": "array",
+        "metadata": {
+          "displayName": "SSL Enforcement",
+          "description": "Parameter for monitoring whether the MySQL database enforces SSL connections, Enabled, or doesn't, Disabled.",
+          "controlID": "N/A",
+          "risk": "Data Leakage"
+        },
+        "allowedValues": [
+          "Enabled",
+          "Disabled"
+        ],
+        "defaultValue": [
+          "Enabled",
+          "Disabled"
+        ]
+      }
+    }
+  }
+}

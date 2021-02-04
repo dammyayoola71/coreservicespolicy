@@ -1,0 +1,6 @@
+{
+  "displayName": "Managed Identity secure settings",
+  "description": "The _identity.type_ field returns the type of Managed Identity associated with the resource. Users can choose to add a Managed Identity as a System Assigned or User Assigned security principal.",
+  "category": "GuestConfiguration",
+  "apiVersion": ""
+}

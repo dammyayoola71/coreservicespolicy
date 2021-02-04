@@ -1,0 +1,5 @@
+{
+    "displayName": "SQL Server Version Settings",
+    "description": "Policy for checking the Version of SQL Server",
+    "category": "Operational Risk"
+}

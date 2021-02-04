@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "PrivateEndpoint_vNet": {
+      "type": "string"
+    },
+    "mySQLDbName": {
+      "type": "string"
+    },
+    "PrivateEndpoint_name": {
+      "type": "string"
+    },
+    "PrivateEndpointConnection_name": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/privateEndpoints",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('PrivateEndpoint_name')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "privateLinkServiceConnections": [
+          {
+            "name": "[parameters('PrivateEndpoint_name')]",
+            "properties": {
+              "privateLinkServiceId": "[resourceId('Microsoft.DBforMySQL/servers', last(split(parameters('mySQLDbName'), '/')))]",
+              "groupIds": [
+                "mysqlServer"
+              ],
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "description": "Auto-approved",
+                "actionsRequired": "None"
+              }
+            }
+          }
+        ],
+        "manualPrivateLinkServiceConnections": [],
+        "subnet": {
+          "id": "[concat(parameters('PrivateEndpoint_vNet'), '/subnets/default')]"
+        },
+        "customDnsConfigs": []
+      }
+    }
+  ]
+}

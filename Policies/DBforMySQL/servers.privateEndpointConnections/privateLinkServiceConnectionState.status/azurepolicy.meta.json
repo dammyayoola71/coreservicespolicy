@@ -1,0 +1,5 @@
+{
+  "displayName": "Private endpoint enabled for MySQL servers",
+  "description": "This policy audits MySQL servers not configured to use a private endpoint. For more details, visit https://aka.ms/mysqlprivatelink.",
+  "category": "MySQL"
+}

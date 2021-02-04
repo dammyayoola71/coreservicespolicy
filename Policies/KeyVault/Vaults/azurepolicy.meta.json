@@ -1,0 +1,5 @@
+{
+    "displayName": "Key Vault Secure Settings",
+    "description": "Azure Policy for Key Vaults",
+    "category":  "KeyVault"
+}

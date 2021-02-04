@@ -1,0 +1,43 @@
+{
+  "type": {
+    "defaultValue": [
+      "Microsoft.Storage/storageAccounts"
+    ],
+    "allowedValues": [
+      "Microsoft.Storage/storageAccounts"
+    ],
+    "type": "array",
+    "metadata": {
+      "displayName": "Resource Type",
+      "description": "Array of Resource Types that can have Advanced Threat Protection enabled"
+    }
+  },
+  "effect": {
+    "type": "string",
+    "defaultValue": "AuditIfNotExists",
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Disabled"
+    }
+  },
+  "isEnabled": {
+    "defaultValue": [
+      true,
+      false
+    ],
+    "allowedValues": [
+      true,
+      false
+    ],
+    "type": "array",
+    "metadata": {
+      "displayName": "Enabled",
+      "description": "Determine if Advanced Threat Protection is Enabled"
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "Name": "Virtual Network secure settings",
+  "properties": {
+    "displayName": "Virtual Network secure settings",
+    "description": "Policy for monitoring Microsoft.Network Virtual Networks: Whether subnets have NSGs, Subnets include approved names and whether DDoS is enabled.",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allof": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "value": "[not(empty(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup')))]",
+            "notIn": "[parameters('subnets.star.networkSecurityGroup')]"
+          },
+          {
+            "anyof": [
+              {
+                "value": "[contains(parameters('subnets.star.name'), 'ALL')]",
+                "notEquals": true
+              },
+              {
+                "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                "notIn": "[parameters('subnets.star.name')]"
+              }
+            ]
+          },
+          {
+            "field": "Microsoft.Network/virtualNetworks/enableDdosProtection",
+            "notIn": "[parameters('enableDdosProtection')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "subnets.star.networkSecurityGroup": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Subnet Network Security Group",
+          "description": "Evaluate whether a Virtual Network Subnet has a Network Security Group assigned, true, or not, false",
+          "controlID": "N/A",
+          "risk": "Operational Risk"
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": [
+          true,
+          false
+        ]
+      },
+      "subnets.star.name": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Subnet Name",
+          "description": "Virtual Networks have a 'default' subnet when created. 'GatewaySubnet' and 'AzureFirewallSubnet' are reserved for specific purposes. Separate subnet names with a comma (,) to allow for a list. Include the value 'ALL' to allow any name.",
+          "controlID": "N/A",
+          "risk": "Operational Risk"
+        },
+        "defaultValue": [
+          "default",
+          "GatewaySubnet",
+          "AzureFirewallSubnet",
+          "ALL"
+        ]
+      },
+      "enableDdosProtection": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Enable Distributed Denial Of Service (DDoS) Protection",
+          "description": "Parameter to monitor enablement, true, or disablement, false, of DDoS for virtual networks",
+          "controlID": "N/A",
+          "risk": "Operational Risk"
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": [
+          true,
+          false
+        ]
+      }
+    }
+  }
+}

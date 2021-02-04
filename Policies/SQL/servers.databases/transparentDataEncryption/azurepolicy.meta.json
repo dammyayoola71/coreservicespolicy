@@ -1,0 +1,5 @@
+{
+  "displayName": "Enable Transparent Data Encryption on SQL databases",
+  "description": "Transparent data encryption protects data-at-rest and meets compliance requirements.",
+  "category": "SQL"
+}

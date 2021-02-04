@@ -1,0 +1,33 @@
+{
+  "if": {
+    "allof": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "value": "[not(empty(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup')))]",
+        "notIn": "[parameters('subnets.star.networkSecurityGroup')]"
+      },
+      {
+        "anyof": [
+          {
+            "value": "[contains(parameters('subnets.star.name'), 'ALL')]",
+            "notEquals": true
+          },
+          {
+            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+            "notIn": "[parameters('subnets.star.name')]"
+          }
+        ]
+      },
+      {
+        "field": "Microsoft.Network/virtualNetworks/enableDdosProtection",
+        "notIn": "[parameters('enableDdosProtection')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

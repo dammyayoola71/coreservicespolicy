@@ -1,0 +1,5 @@
+{
+  "displayName": "Azure Active Directory administrator for SQL servers",
+  "description": "Audit provisioning of an Azure Active Directory administrator for SQL server to enable Azure AD authentication.",
+  "category": "SQL"
+}

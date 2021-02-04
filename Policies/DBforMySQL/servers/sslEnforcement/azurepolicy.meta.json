@@ -1,0 +1,5 @@
+{
+  "displayName": "MySQL SSL Enforcement Settings",
+  "description": "Policy for monitoring whether the MySQL database enforces SSL connections, true, or doesn't, false",
+  "category": "DBforMySQL"
+}

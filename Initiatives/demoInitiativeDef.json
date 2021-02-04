@@ -1,0 +1,213 @@
+[
+  {
+    "initiativeName": "Test Initiative",
+    "description": "Test Description",
+    "metadata": [],
+    "globalParameters": [
+      {
+        "effect": "[parameters('effect')]"
+      }
+    ],
+    "policies": [
+      {
+        "Name": "Network applicationGateways_Audit|Deny",
+        "parameters": {
+          "webApplicationFirewallConfiguration.enabled": {
+            "value": [
+              true,
+              false,
+              null
+            ]
+          },
+          "sku.tier": {
+            "value": [
+              "Standard",
+              "WAF"
+            ]
+          },
+          "webApplicationFirewallConfiguration.firewallMode": {
+            "value": [
+              "Prevention",
+              "Detection",
+              null
+            ]
+          }
+        }
+      },
+      {
+        "Name": "microsoft.insights_diagnosticSettings",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          },
+          "resourceTypes": {
+            "value": [
+              "Microsoft.DataFactory/factories",
+              "Microsoft.DataLakeStore/accounts",
+              "Microsoft.Network/applicationGateways",
+              "Microsoft.KeyVault/vaults",
+              "Microsoft.RecoveryServices/vaults",
+              "Microsoft.Databricks/workspaces"
+            ]
+          },
+          "workspaceId": {
+            "value": [
+              true
+            ]
+          },
+          "storageAccountId": {
+            "value": [
+              true,
+              false
+            ]
+          },
+          "eventHubAuthorizationRuleId": {
+            "value": [
+              true,
+              false
+            ]
+          }
+        }
+      },
+      {
+        "Name": "Data Factory Secure Output",
+        "parameters": {
+        }
+      },
+      {
+        "Name": "Data Factory Linked Credentials",
+        "parameters": {
+        }
+      },
+      {
+        "Name": "KeyVault Vaults_Audit|Deny",
+        "parameters": {
+          "enablePurgeProtection": {
+            "value": [
+              true,
+              false,
+              null
+            ]
+          },
+          "enabledForTemplateDeployment": {
+            "value": [
+              true,
+              false,
+              null
+            ]
+          },
+          "enableSoftDelete": {
+            "value": [
+              true,
+              null
+            ]
+          },
+          "enabledForDeployment": {
+            "value": [
+              true
+            ]
+          },
+          "enabledForDiskEncryption": {
+            "value": [
+              true
+            ]
+          }
+        }
+      },
+      {
+        "Name": "DocumentDB databaseAccounts_Audit|Deny",
+        "parameters": {
+          "enableAutomaticFailover": {
+            "value": [
+              true,
+              false
+            ]
+          },
+          "defaultConsistencyLevel": {
+            "value": [
+              "Strong",
+              "BoundedStaleness",
+              "Session",
+              "ConsistentPrefix",
+              "Eventual"
+            ]
+          }
+        }
+      },
+      {
+        "Name": "Network Watcher should be enabled",
+        "parameters": {
+          "listOfLocations": {
+            "value": [
+              "East US",
+              "East US 2",
+              "South Central US"
+            ]
+          }
+        }
+      },
+      {
+        "Name": "Geo-redundant storage should be enabled for Storage Accounts",
+        "parameters": {
+        }
+      },
+      {
+        "Name": "Diagnostic logs in Virtual Machine Scale Sets should be enabled",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      },
+      {
+        "Name": "Virtual machines should be migrated to new Azure Resource Manager resources",
+        "parameters": {
+        }
+      },
+      {
+        "Name": "Diagnostic logs in App Services should be enabled",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      },
+      {
+        "Name": "API App should only be accessible over HTTPS",
+        "parameters": {
+        }
+      },
+      {
+        "Name": "Authentication should be enabled on your Function app",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      },
+      {
+        "Name": "Function App should only be accessible over HTTPS",
+        "parameters": {
+        }
+      },
+      {
+        "Name": "Private endpoint should be enabled for MySQL servers",
+        "parameters": {
+            "effect": {
+                "value": "AuditIfNotExists"
+            }
+        }
+      },
+      {
+        "Name": "SQL Server Version_Audit|Deny",
+        "parameters": {
+          "version": {
+            "value": [
+              "12.0"
+            ]
+          }
+        }
+      }
+    ]
+  }
+]

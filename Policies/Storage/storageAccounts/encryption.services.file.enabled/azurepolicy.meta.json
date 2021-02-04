@@ -1,0 +1,5 @@
+{
+  "displayName": "File Storage Encryption",
+  "description": "Audit for File Storage accounts encryption",
+  "category": "Data Retention"
+}

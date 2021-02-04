@@ -1,0 +1,308 @@
+{
+  "name": "Diagnostic Settings for Data Factory Factories",
+  "properties": {
+    "displayName": "Diagnostic Settings for Data Factory Factories",
+    "description": "Policy for enforcing Diagnostic Settings for Data Factory Factories",
+    "metadata": {
+      "category": "microsoft.insights",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.DataFactory/factories"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "ActivityRuns": {
+                  "value": "[parameters('ActivityRuns')]"
+                },
+                "PipelineRuns": {
+                  "value": "[parameters('PipelineRuns')]"
+                },
+                "TriggerRuns": {
+                  "value": "[parameters('TriggerRuns')]"
+                },
+                "SSISPackageEventMessages": {
+                  "value": "[parameters('SSISPackageEventMessages')]"
+                },
+                "SSISPackageExecutableStatistics": {
+                  "value": "[parameters('SSISPackageExecutableStatistics')]"
+                },
+                "SSISPackageEventMessageContext": {
+                  "value": "[parameters('SSISPackageEventMessageContext')]"
+                },
+                "SSISPackageExecutionComponentPhases": {
+                  "value": "[parameters('SSISPackageExecutionComponentPhases')]"
+                },
+                "SSISPackageExecutionDataStatistics": {
+                  "value": "[parameters('SSISPackageExecutionDataStatistics')]"
+                },
+                "SSISIntegrationRuntimeLogs": {
+                  "value": "[parameters('SSISIntegrationRuntimeLogs')]"
+                },
+                "AllMetrics": {
+                  "value": "[parameters('AllMetrics')]"
+                },
+                "workspaceId": {
+                  "value": "[parameters('workspaceId')]"
+                },
+                "vaultName": {
+                  "value": "[field('fullName')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "ActivityRuns": {
+                    "type": "bool"
+                  },
+                  "PipelineRuns": {
+                    "type": "bool"
+                  },
+                  "TriggerRuns": {
+                    "type": "bool"
+                  },
+                  "SSISPackageEventMessages": {
+                    "type": "bool"
+                  },
+                  "SSISPackageExecutableStatistics": {
+                    "type": "bool"
+                  },
+                  "SSISPackageEventMessageContext": {
+                    "type": "bool"
+                  },
+                  "SSISPackageExecutionComponentPhases": {
+                    "type": "bool"
+                  },
+                  "SSISPackageExecutionDataStatistics": {
+                    "type": "bool"
+                  },
+                  "SSISIntegrationRuntimeLogs": {
+                    "type": "bool"
+                  },
+                  "AllMetrics": {
+                    "type": "bool"
+                  },
+                  "workspaceId": {
+                    "type": "string"
+                  },
+                  "vaultName": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.DataFactory/factories/providers/diagnosticSettings",
+                    "apiVersion": "2017-05-01-preview",
+                    "name": "[concat(parameters('vaultName'), '/Microsoft.Insights/diagnosticSettings', parameters('vaultName'), '-DIAG')]",
+                    "properties": {
+                      "workspaceId": "[parameters('workspaceId')]",
+                      "logs": [
+                        {
+                          "category": "ActivityRuns",
+                          "enabled": "[parameters('ActivityRuns')]"
+                        },
+                        {
+                          "category": "PipelineRuns",
+                          "enabled": "[parameters('PipelineRuns')]"
+                        },
+                        {
+                          "category": "TriggerRuns",
+                          "enabled": "[parameters('TriggerRuns')]"
+                        },
+                        {
+                          "category": "SSISPackageEventMessages",
+                          "enabled": "[parameters('SSISPackageEventMessages')]"
+                        },
+                        {
+                          "category": "SSISPackageExecutableStatistics",
+                          "enabled": "[parameters('SSISPackageExecutableStatistics')]"
+                        },
+                        {
+                          "category": "SSISPackageEventMessageContext",
+                          "enabled": "[parameters('SSISPackageEventMessageContext')]"
+                        },
+                        {
+                          "category": "SSISPackageExecutionComponentPhases",
+                          "enabled": "[parameters('SSISPackageExecutionComponentPhases')]"
+                        },
+                        {
+                          "category": "SSISPackageExecutionDataStatistics",
+                          "enabled": "[parameters('SSISPackageExecutionDataStatistics')]"
+                        },
+                        {
+                          "category": "SSISIntegrationRuntimeLogs",
+                          "enabled": "[parameters('SSISIntegrationRuntimeLogs')]"
+                        }
+                      ],
+                      "metrics": [
+                        {
+                          "category": "AllMetrics",
+                          "enabled": "[parameters('AllMetrics')]"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "workspaceId": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics Workspace",
+          "description": "Choose the Log Analytics Workspace to send Diagnostic Logs to",
+          "strongType": "Microsoft.OperationalInsights/workspaces"
+        }
+      },
+      "AllMetrics": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture All Metrics?",
+          "description": "Choose whether to capture All Metrics"
+        }
+      },
+      "ActivityRuns": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Activity Runs Events?",
+          "description": "Choose whether to capture Activity Runs"
+        }
+      },
+      "PipelineRuns": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Pipeline Runs Events?",
+          "description": "Choose whether to capture Pipeline Runs"
+        }
+      },
+      "TriggerRuns": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Trigger Runs Events?",
+          "description": "Choose whether to capture Trigger Runs"
+        }
+      },
+      "SSISPackageEventMessages": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "SSIS Package Event Messages Events?",
+          "description": "Choose whether to capture SSIS Package Event Messages"
+        }
+      },
+      "SSISPackageExecutableStatistics": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "SSIS Package Executable Statistics Events?",
+          "description": "Choose whether to capture SSIS Package Executable Statistics"
+        }
+      },
+      "SSISPackageEventMessageContext": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "SSIS Package Event Message Context Events?",
+          "description": "Choose whether to capture SSIS Package Event Message Context"
+        }
+      },
+      "SSISPackageExecutionComponentPhases": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "SSIS Package Execution Component Phases Events?",
+          "description": "Choose whether to capture SSIS Package Execution Component Phases"
+        }
+      },
+      "SSISPackageExecutionDataStatistics": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "SSIS Package Execution Data Statistics Events?",
+          "description": "Choose whether to capture SSIS Package Execution Data Statistics"
+        }
+      },
+      "SSISIntegrationRuntimeLogs": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "SSIS Integration Runtime Logs Events?",
+          "description": "Choose whether to capture SSIS Integration Runtime Logs"
+        }
+      }
+    }
+  }
+}

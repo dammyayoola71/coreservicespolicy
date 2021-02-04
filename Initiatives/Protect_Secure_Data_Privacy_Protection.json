@@ -1,0 +1,219 @@
+{
+  "name": "NFCU_Protect and Secure_Data Privacy and Protection",
+  "properties": {
+    "displayName": "NFCU_Protect and Secure_Data Privacy and Protection",
+    "description": "This initiative contains Data privacy and Protection policies involving Logging, Data transfers, Versioning and recoverability security controls for Azure Resources.",
+    "metadata": [
+      {
+        "category": "Data Privacy"
+      }
+    ],
+    "policyDefinitionGroups": [],
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "DiagnosticLogssecuresettings",
+        "policyDefinitionName": "Diagnostic Logs secure settings",
+        "parameters": {
+          "eventHubAuthorizationRuleId": {
+            "value": [
+              true
+            ]
+          },
+          "storageAccountId": {
+            "value": [
+              true
+            ]
+          },
+          "workspaceId": {
+            "value": [
+              true
+            ]
+          },
+          "effect": {
+            "value": "AuditIfNotExists"
+          },
+          "resourceTypes": {
+            "value": [
+              "Microsoft.DataFactory/factories",
+              "Microsoft.DataLakeStore/accounts",
+              "Microsoft.Network/applicationGateways",
+              "Microsoft.KeyVault/vaults",
+              "Microsoft.RecoveryServices/vaults",
+              "Microsoft.Databricks/workspaces",
+              "Microsoft.Compute/virtualMachineScaleSets",
+              "Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
+              "Microsoft.Web/sites"
+            ]
+          }
+        },
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "SQLServerVersionSettings",
+        "policyDefinitionName": "SQL Server Version Settings",
+        "parameters": {
+          "version": {
+            "value": [
+              "12.0"
+            ]
+          }
+        },
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "KeyVaultSecureSettings",
+        "policyDefinitionName": "Key Vault Secure Settings",
+        "parameters": {
+          "enabledForDeployment": {
+            "value": [
+              true,
+              false
+            ]
+          },
+          "enableSoftDelete": {
+            "value": [
+              true
+            ]
+          },
+          "enabledForTemplateDeployment": {
+            "value": [
+              true,
+              false
+            ]
+          },
+          "enabledForDiskEncryption": {
+            "value": [
+              true,
+              false
+            ]
+          },
+          "enablePurgeProtection": {
+            "value": [
+              true
+            ]
+          }
+        },
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "Geo-redundantstorageshouldbeenabledforStorageAccounts",
+        "policyDefinitionName": "bf045164-79ba-4215-8f95-f8048dc1780b",
+        "parameters": {},
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "SoftDeleteonBlobStorageaccountsv2.0",
+        "policyDefinitionName": "Soft Delete on Blob Storage accounts v2.0",
+        "parameters": {
+          "retentionDays": {
+            "value": 90
+          }
+        },
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "AdvanceddatasecurityshouldbeenabledonyourSQLServers",
+        "policyDefinitionName": "abfb4388-5bf4-4ad7-ba82-2cd2f41ceae9",
+        "Name": "Advanced data security should be enabled on your SQL Servers",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        },
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "AnAzureActiveDirectoryadministratorshouldbeprovisionedforSQLservers",
+        "policyDefinitionName": "1f314764-cb73-4fc9-b863-8eca98ac36e9",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        },
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "Automationaccountvariablesshouldbeencrypted",
+        "policyDefinitionName": "3657f5a0-770e-44a3-b44e-9431ba1e9735",
+        "Name": "Automation account variables should be encrypted",
+        "parameters": {},
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "AzureDefenderforStorageshouldbeenabled",
+        "policyDefinitionName": "308fbb08-4ab8-4e67-9b29-592e93fb94fa",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        },
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "RequireStorageFileEncryption",
+        "policyDefinitionName": "4c23139d-014f-400b-8417-d67918b8b9ba",
+        "parameters": {},
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "Securetransfertostorageaccountsshouldbeenabled",
+        "policyDefinitionName": "404c3081-a854-4457-ae30-26a93ef643f9",
+        "parameters": {},
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "TransparentDataEncryptiononSQLdatabasesshouldbeenabled",
+        "policyDefinitionName": "17k78e20-9358-41c9-923c-fb736d382a12",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        },
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "VulnerabilityassessmentshouldbeenabledonSQLManagedInstance",
+        "policyDefinitionName": "1b7aa243-30e4-4c9e-bca8-d0d3022b634a",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        },
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "RequireEncryptiononStorageAccounts",
+        "policyDefinitionName": "e594e3ce-925e-4a68-837e-7badda9e54fa",
+        "parameters": {},
+        "groupName": []
+      },
+      {
+        "policyDefinitionReferenceId": "AuditingonSQLservershouldbeenabled",
+        "policyDefinitionName": "a6fb4358-5bf4-4ad7-ba82-2cd2f41ce5e9",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          },
+          "setting": {
+            "value": "enabled"
+          }
+        },
+        "groupName": []
+      }
+    ]
+  }
+}

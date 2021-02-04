@@ -1,0 +1,64 @@
+{
+  "Name": "File Storage Encryption",
+  "properties": {
+    "displayName": "File Storage Encryption",
+    "description": "Audit for File Storage accounts encryption",
+    "mode": "All",
+    "metadata": {
+      "category": "Data Retention",
+      "version": "2.0"
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "not": {
+              "field": "tags['resourceBypass']",
+              "exists": true
+            }
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/encryption.services.file.enabled",
+            "notIn": "[parameters('encryption.services.file.enabled')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "encryption.services.file.enabled": {
+        "type": "array",
+        "defaultValue": [
+          true,
+          false
+        ],
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "File Encryption Enabled",
+          "description": "Monitor for Encrypted (true) or unencrypted (false) File Storage"
+        }
+      }
+    }
+  }
+}

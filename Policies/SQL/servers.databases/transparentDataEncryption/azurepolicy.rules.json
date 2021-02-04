@@ -1,0 +1,67 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers/databases"
+      },
+      {
+        "field": "name",
+        "notEquals": "master"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+      "name": "current",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ],
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Sql/transparentDataEncryption.status",
+            "in": "[parameters('transparentDataEncryption.status')]"
+          }
+        ]
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "parameters": {
+            "transparentDataEncryption.status": {
+              "value": "[first(parameters('transparentDataEncryption.status'))]"
+            },
+            "name": {
+              "value": "[field('fullName')]"
+            }
+          },
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "transparentDataEncryption.status": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+                "apiVersion": "2014-04-01",
+                "name": "[concat(parameters('name'), '/current')]",
+                "properties": {
+                  "status": "[parameters('transparentDataEncryption.status')]"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

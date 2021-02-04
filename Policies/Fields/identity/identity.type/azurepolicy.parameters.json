@@ -1,0 +1,48 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "Audit",
+    "allowedValues": [
+      "Audit",
+      "Deny"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Deny"
+    }
+  },
+  "identity.type.resourceTypes": {
+    "type": "array",
+    "defaultValue": [
+      "Microsoft.Compute/virtualMachines",
+      "Microsoft.RecoveryServices/vaults"
+    ],
+    "allowedValues": [
+      "Microsoft.Compute/virtualMachines",
+      "Microsoft.RecoveryServices/vaults"
+    ],
+    "metadata": {
+      "displayName": "Resource Types",
+      "description": "Select the Resource Types that should have Diagnostics sent to Log Analytics"
+    }
+  },
+  "identity.type.value": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Type of managed identity",
+      "description": "Parameter to monitor whether a managed identity exists on the targeted resource(s)",
+      "controlID": "N/A",
+      "risk": "Operational Risk"
+    },
+    "allowedValues": [
+      "SystemAssigned",
+      "UserAssigned",
+      null
+    ],
+    "defaultValue": [
+      "SystemAssigned",
+      "UserAssigned",
+      null
+    ]
+  }
+}

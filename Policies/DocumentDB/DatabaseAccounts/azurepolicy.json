@@ -1,0 +1,91 @@
+{
+  "Name": "Cosmos DB Secure Settings",
+  "properties": {
+    "displayName": "Cosmos DB Secure Settings",
+    "description": "Azure Policy for Cosmos DB",
+    "mode": "All",
+    "metadata": {
+      "category": "DocumentDB",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DocumentDB/databaseAccounts"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/enableAutomaticFailover",
+                "notIn": "[parameters('enableAutomaticFailover')]"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/consistencyPolicy.defaultConsistencyLevel",
+                "notIn": "[parameters('defaultConsistencyLevel')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "enableAutomaticFailover": {
+        "type": "array",
+        "defaultValue": [
+          true,
+          false
+        ],
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Enable Automatic Failover",
+          "description": "Enable Automatic Failover",
+          "controlID": "[Control ID]",
+          "risk": "[Intrusion, Data leakage, Operational Risk, Internal Fraud, Regulatory]"
+        }
+      },
+      "defaultConsistencyLevel": {
+        "type": "array",
+        "defaultValue": [
+          "Strong",
+          "BoundedStaleness",
+          "Session",
+          "ConsistentPrefix",
+          "Eventual"
+        ],
+        "allowedValues": [
+          "Strong",
+          "BoundedStaleness",
+          "Session",
+          "ConsistentPrefix",
+          "Eventual"
+        ],
+        "metadata": {
+          "displayName": "default Consistency Level",
+          "description": "Default Consistency Level",
+          "controlID": "[Control ID]",
+          "risk": "[Intrusion, Data leakage, Operational Risk, Internal Fraud, Regulatory]"
+        }
+      }
+    }
+  }
+}

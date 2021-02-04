@@ -1,0 +1,73 @@
+pool:
+  name: Cloud Pool
+  demands: Agent.OS -equals Windows_NT
+
+trigger:
+  branches:
+    # branch names are case senititve
+    include:
+    - development
+    - InfoSecDevelopment
+    - master
+  paths:
+    # triggers only on modification to contents of initiative directory
+    include:
+    - Assignments/*
+    exclude:
+    - Assignments/README.MD
+
+variables:
+  rootFolder: '"$(System.DefaultWorkingDirectory)/"'
+  definitionLocation: "4cb791f1-02d1-4a4e-8610-911ee57bb08c"
+  folderName: "Assignments"
+
+stages:
+- stage: assign_policy_or_initiative_infosec_sdbx
+  displayName: 'Assign Policy or Initiative to InfoSec SDBX'
+  condition: and(always(), contains(variables['Build.SourceBranch'], 'refs/heads/InfoSecDevelopment'))
+  jobs:
+    - job:
+      steps:
+      - task: PowerShell@2
+        displayName: 'Get Modified Initiative'
+        condition: ne(variables['Build.Reason'], 'Manual')
+        inputs:
+          filePath: 'Libraries/Tools/Misc/checkDiff.ps1'
+          arguments: '-folderName $(folderName)
+                      -defRootFolder $(rootFolder)'
+      - task: AzurePowerShell@5
+        displayName: 'Create Policy Assignment'
+        inputs:
+          azureSubscription: AzureRM-INFOSEC-SDBX
+          ScriptPath: 'Libraries/Tools/Az/Create-PolicyAssignment.ps1'
+          ScriptArguments: '-rootFolder $(rootFolder)
+                            -assignmentNames $(assignments)
+                            -definitionLocation $(definitionLocation)'
+          FailOnStandardError: false
+          azurePowerShellVersion: LatestVersion
+          pwsh: true
+
+- stage: assign_policy_or_initiative_tenant_root
+  displayName: 'Assign Policy or Initiative to Tentant Root Group'
+  condition: and(always(), contains(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+    - job:
+      steps:
+      - task: PowerShell@2
+        displayName: 'Get Modified Initiative'
+        condition: ne(variables['Build.Reason'], 'Manual')
+        inputs:
+          filePath: 'Libraries/Tools/Misc/checkDiff.ps1'
+          arguments: '-folderName $(folderName)
+                      -defRootFolder $(rootFolder)'
+      - task: AzurePowerShell@5
+        displayName: 'Create Policy Assignment'
+        inputs:
+          azureSubscription: AzureRM-Tenant-Root
+          ScriptPath: 'Libraries/Tools/Az/Create-PolicyAssignment.ps1'
+          ScriptArguments: '-rootFolder $(rootFolder)
+                            -assignmentNames $(assignments)
+                            -definitionLocation $(definitionLocation)'
+          FailOnStandardError: false
+          azurePowerShellVersion: LatestVersion
+          pwsh: true

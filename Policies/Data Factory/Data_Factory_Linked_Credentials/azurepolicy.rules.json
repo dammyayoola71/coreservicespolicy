@@ -1,0 +1,19 @@
+{
+  "if": {
+    "allOf": [{
+      "field": "type",
+      "equals": "Microsoft.DataFactory/factories/linkedServices"
+    },
+    {
+      "field": "Microsoft.DataFactory/factories/linkedservices/type",
+      "notEquals": "AzureKeyVault"
+    },
+    {
+      "field": "Microsoft.DataFactory/factories/linkedservices/typeProperties.connectionString.type",
+      "notEquals": "AzureKeyVaultSecret"
+    }]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

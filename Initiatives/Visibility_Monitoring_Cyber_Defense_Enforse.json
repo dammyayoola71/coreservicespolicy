@@ -1,0 +1,39 @@
+{
+  "name": "NFCU_Visibility and Monitoring_Cyber Defense Enforce",
+  "properties": {
+    "displayName": "NFCU_Visibility and Monitoring_Cyber Defense Enforce",
+    "description": "This initiative contains Cyber Defense security policies resource backup, high availibility, and updated Azure resources for Azure resources.",
+    "metadata": [
+      {
+        "category": "Monitoring",
+        "version": "1.0"
+      }
+    ],
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The effect determines what happens when the policy rule is evaluated to match"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "VirtualmachinesshouldbemigratedtonewAzureResourceManagerresources",
+        "policyDefinitionName": "1d84d5fb-01f6-4d12-ba4f-4a26081d403d",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        }
+      }
+    ]
+  }
+}

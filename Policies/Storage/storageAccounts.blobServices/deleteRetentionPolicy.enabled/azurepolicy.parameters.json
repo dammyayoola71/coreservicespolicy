@@ -1,0 +1,60 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "AuditIfNotExists",
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Deny"
+    }
+  },
+  "deleteRetentionPolicy.enabled": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Blob Storage Soft Delete",
+      "description": "Determine whether Soft Delete is enabled (true) or not (false)",
+      "controlID": "N/A",
+      "risk": "Operational Risk"
+    },
+    "allowedValues": [
+      true,
+      false
+    ],
+    "defaultValue": [
+      true,
+      false
+    ]
+  },
+  "retentionDays": {
+    "type": "integer",
+    "metadata": {
+      "displayName": "The value in days of the retention period",
+      "description": "Set the number of days that a blob marked for deletion persists until it's permanently deleted",
+      "controlID": "N/A",
+      "risk": "Operational Risk"
+    }
+  },
+  "isHnsEnabled": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Data Lake Storage Gen2",
+      "description": "Determine whether this Storage Account has Data Lake Storage Gen2 enabled (true) or disabled (false/null)",
+      "controlID": "N/A",
+      "risk": "Operational Risk"
+    },
+    "allowedValues": [
+      true,
+      false,
+      null
+    ],
+    "defaultValue": [
+      true,
+      false,
+      null
+    ]
+  }
+}

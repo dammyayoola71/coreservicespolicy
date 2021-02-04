@@ -1,0 +1,26 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "Audit",
+    "allowedValues": [
+      "Audit",
+      "Deny"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Disabled"
+    }
+  },
+  "version": {
+    "type": "array",
+    "defaultValue": [ "12.0" ],
+    "allowedValues": [
+      "12.0",
+      "11.0"
+    ],
+    "metadata": {
+      "displayName": "Version",
+      "description": "The version of acceptable SQL Servers"
+    }
+  }
+}

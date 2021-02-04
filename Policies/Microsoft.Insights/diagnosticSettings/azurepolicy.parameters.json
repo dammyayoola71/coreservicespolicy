@@ -1,0 +1,88 @@
+{
+    "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+        ],
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Define the effect of the Policy as Audit or Disabled"
+        }
+    },
+    "resourceTypes": {
+        "type": "array",
+        "defaultValue": [
+            "Microsoft.DataFactory/factories",
+            "Microsoft.DataLakeStore/accounts",
+            "Microsoft.Network/applicationGateways",
+            "Microsoft.KeyVault/vaults",
+            "Microsoft.RecoveryServices/vaults",
+            "Microsoft.Databricks/workspaces",
+            "Microsoft.Compute/virtualMachineScaleSets",
+            "Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
+            "Microsoft.Web/sites"
+        ],
+        "allowedValues": [
+            "Microsoft.DataFactory/factories",
+            "Microsoft.DataLakeStore/accounts",
+            "Microsoft.Network/applicationGateways",
+            "Microsoft.KeyVault/vaults",
+            "Microsoft.RecoveryServices/vaults",
+            "Microsoft.Databricks/workspaces",
+            "Microsoft.Compute/virtualMachineScaleSets",
+            "Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
+            "Microsoft.Web/sites"
+        ],
+        "metadata": {
+          "displayName": "Resource Types",
+          "description": "Select the Resource Types that should have Diagnostics sent to Log Analytics"
+        }
+    },
+    "workspaceId": {
+        "type": "array",
+        "defaultValue": [
+            true,
+            false
+        ],
+        "allowedValues": [
+            true,
+            false
+        ],
+        "metadata": {
+            "displayName": "Stream to Log Analytics",
+            "description": "Whether to Stream Diagnostic Settings to Log Analytics"
+        }
+    },
+    "storageAccountId": {
+        "type": "array",
+        "defaultValue": [
+            true,
+            false
+        ],
+        "allowedValues": [
+            true,
+            false
+        ],
+        "metadata": {
+            "displayName": "Stream to Storage Account",
+            "description": "Whether to Stream Diagnostic Settings to a Storage Account"
+        }
+    },
+    "eventHubAuthorizationRuleId": {
+        "type": "array",
+        "defaultValue": [
+            true,
+            false
+        ],
+        "allowedValues": [
+            true,
+            false
+        ],
+        "metadata": {
+            "displayName": "Stream to Event Hub",
+            "description": "Whether to Stream Diagnostic Settings to Event Hub"
+        }
+    }
+}

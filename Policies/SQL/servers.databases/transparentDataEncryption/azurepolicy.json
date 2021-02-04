@@ -1,0 +1,111 @@
+{
+  "Name": "Enable Transparent Data Encryption on SQL databases",
+  "properties": {
+    "displayName": "Enable Transparent Data Encryption on SQL databases",
+    "description": "Transparent data encryption protects data-at-rest and meets compliance requirements",
+    "mode": "All",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers/databases"
+          },
+          {
+            "field": "name",
+            "notEquals": "master"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+          "name": "current",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Sql/transparentDataEncryption.status",
+                "in": "[parameters('transparentDataEncryption.status')]"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "transparentDataEncryption.status": {
+                  "value": "[first(parameters('transparentDataEncryption.status'))]"
+                },
+                "name": {
+                  "value": "[field('fullName')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "transparentDataEncryption.status": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+                    "apiVersion": "2014-04-01",
+                    "name": "[concat(parameters('name'), '/current')]",
+                    "properties": {
+                      "status": "[parameters('transparentDataEncryption.status')]"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "transparentDataEncryption.status": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Transparent Data Encryption Status",
+          "description": "Determines whether the policy expects Enabled or Disabled Transparent Data Encryption",
+          "controlID": "N/A",
+          "risk": "Data Leakage"
+        },
+        "allowedValues": [
+          "Enabled",
+          "Disabled"
+        ],
+        "defaultValue": [
+          "Enabled",
+          "Disabled"
+        ]
+      }
+    }
+  }
+}

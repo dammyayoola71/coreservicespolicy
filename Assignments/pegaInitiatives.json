@@ -1,0 +1,46 @@
+{
+    "name": "PEGA Management Group",
+    "scope": {
+        "type": "Management Group",
+        "Name": "PEGA" 
+    },
+    "globalParameters": {
+        "effect": {
+            "value": "Audit"
+        }
+    },
+    "policies": [
+    ],
+    "initiatives": [
+        {
+            "initiativeName": "NFCU_Manage and Govern_Application Security",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Protect and Secure_Data Privacy and Protection",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Protect and Secure_Digital Identity",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Protect and Secure_Network and Endpoint Security",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Visibility and Monitoring_Cyber Defense",
+            "parameters": {
+
+            }
+        }
+    ]
+}

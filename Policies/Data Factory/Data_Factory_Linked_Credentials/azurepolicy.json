@@ -1,0 +1,47 @@
+{
+  "Name": "Data Factory Linked Credentials",
+  "properties": {
+    "displayName": "Data Factory Linked Credentials",
+    "description": "Policy for checking Data Factory Linked Credentials not in a Key Vault",
+    "mode": "All",
+    "metadata": {
+      "category": "Unauthorized Access",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DataFactory/factories/linkedServices"
+          },
+          {
+            "field": "Microsoft.DataFactory/factories/linkedservices/type",
+            "notEquals": "AzureKeyVault"
+          },
+          {
+            "field": "Microsoft.DataFactory/factories/linkedservices/typeProperties.connectionString.type",
+            "notEquals": "AzureKeyVaultSecret"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      }
+    }
+  }
+}

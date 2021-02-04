@@ -1,0 +1,5 @@
+{
+  "displayName": "Soft Delete on File Storage accounts",
+  "description": "Policy to configure Soft Delete on File Storage accounts",
+  "category": "Storage"
+}

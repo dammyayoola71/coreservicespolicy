@@ -1,0 +1,5 @@
+{
+  "displayName": "Web Sites accessible over HTTPS",
+  "description": "Policy to monitor whether Web Sites require Mutual Authentication between the site and the Clients through Certificates",
+  "category": "Web"
+}

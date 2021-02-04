@@ -1,0 +1,116 @@
+{
+  "Name": "Soft Delete on File Storage accounts",
+  "properties": {
+    "displayName": "Soft Delete on File Storage accounts",
+    "description": "Policy to configure Soft Delete on File Storage accounts",
+    "mode": "All",
+    "metadata": {
+      "category": "Storage",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Storage/storageAccounts/fileServices",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "existenceCondition": {
+            "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.enabled",
+            "in": "[parameters('default.shareDeleteRetentionPolicy.enabled')]"
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "storageAccountName": {
+                  "value": "[field('name')]"
+                },
+                "default.shareDeleteRetentionPolicy.enabled": {
+                  "value": "[parameters('default.shareDeleteRetentionPolicy.enabled')]"
+                },
+                "retentionDays": {
+                  "value": "[parameters('retentionDays')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "storageAccountName": {
+                    "type": "string"
+                  },
+                  "default.shareDeleteRetentionPolicy.enabled": {
+                    "type": "array"
+                  },
+                  "retentionDays": {
+                    "type": "int"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Storage/storageAccounts/fileServices",
+                    "apiVersion": "2019-06-01",
+                    "name": "[concat(parameters('storageAccountName'), '/default')]",
+                    "properties": {
+                      "shareDeleteRetentionPolicy": {
+                        "enabled": "[last(parameters('default.shareDeleteRetentionPolicy.enabled'))]",
+                        "days": "[parameters('retentionDays')]"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "default.shareDeleteRetentionPolicy.enabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "File Storage Soft Delete",
+          "description": "Determine whether Soft Delete is enabled (true) or not (false)",
+          "controlID": "N/A",
+          "risk": "Operational Risk"
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": [
+          true,
+          false
+        ]
+      },
+      "retentionDays": {
+        "type": "integer",
+        "metadata": {
+          "displayName": "The value in days of the retention period",
+          "description": "Set the number of days that a blob marked for deletion persists until it's permanently deleted",
+          "controlID": "N/A",
+          "risk": "Operational Risk"
+        }
+      }
+    }
+  }
+}

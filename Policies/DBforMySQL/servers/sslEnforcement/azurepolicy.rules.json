@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allof": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DBforMySQL/servers"
+      },
+      {
+        "field": "Microsoft.DBforMySQL/servers/sslEnforcement",
+        "notIn": "[parameters('sslEnforcement')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

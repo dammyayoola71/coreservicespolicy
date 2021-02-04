@@ -1,0 +1,22 @@
+pool:
+  name: Cloud Pool
+  demands: Agent.OS -equals Windows_NT
+
+trigger: none
+
+variables:
+  rootFolder: '"$(System.DefaultWorkingDirectory)/"'
+
+name: AssignmentRollback_$(assignmentName)_$(SourceBranchName)_$(Date:yyyyMMdd)
+
+steps:
+  - task: AzurePowerShell@5
+    displayName: 'Remove Policy Assignment'
+    inputs:
+      azureSubscription: AzureRM-Tenant-Root
+      ScriptPath: 'Libraries/Tools/Az/Remove-PolicyAssignment.ps1'
+      ScriptArguments: '-rootFolder $(rootFolder)
+                        -assignmentName $(assignmentName)'
+      FailOnStandardError: false
+      azurePowerShellVersion: LatestVersion
+      pwsh: true

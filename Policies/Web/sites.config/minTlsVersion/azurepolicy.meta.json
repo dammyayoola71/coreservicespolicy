@@ -1,0 +1,5 @@
+{
+  "displayName": "Latest TLS version should be used in the App",
+  "description": "Azure Policy for Azure App Services web sites configuration",
+  "category": "Web"
+}

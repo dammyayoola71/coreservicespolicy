@@ -1,0 +1,124 @@
+{
+  "Name": "Private endpoint enabled for MySQL servers",
+  "properties": {
+    "displayName": "Private endpoint enabled for MySQL servers",
+    "description": "This policy audits MySQL servers not configured to use a private endpoint. For more details, visit https://aka.ms/mysqlprivatelink",
+    "mode": "All",
+    "metadata": {
+      "category": "MySQL",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.DBforMySQL/servers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.DBforMySQL/servers/privateEndpointConnections",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "existenceCondition": {
+            "allof": [
+              {
+                "field": "Microsoft.DBforMySQL/servers/privateEndpointConnections/privateLinkServiceConnectionState.status",
+                "equals": "Approved"
+              },
+              {
+                "value": "[empty(parameters('PrivateEndpoint_vNet'))]",
+                "equals": false
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "PrivateEndpoint_vNet": {
+                  "value": "[parameters('PrivateEndpoint_vNet')]"
+                },
+                "mySQLDbName": {
+                  "value": "[field('fullName')]"
+                },
+                "PrivateEndpoint_name": {
+                  "value": "[concat(field('name'), '-PE')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "PrivateEndpoint_vNet": {
+                    "type": "string"
+                  },
+                  "mySQLDbName": {
+                    "type": "string"
+                  },
+                  "PrivateEndpoint_name": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Network/privateEndpoints",
+                    "apiVersion": "2020-05-01",
+                    "name": "[parameters('PrivateEndpoint_name')]",
+                    "location": "[resourceGroup().location]",
+                    "properties": {
+                      "privateLinkServiceConnections": [
+                        {
+                          "name": "[parameters('PrivateEndpoint_name')]",
+                          "properties": {
+                            "privateLinkServiceId": "[resourceId('Microsoft.DBforMySQL/servers', last(split(parameters('mySQLDbName'), '/')))]",
+                            "groupIds": [
+                              "mysqlServer"
+                            ],
+                            "privateLinkServiceConnectionState": {
+                              "status": "Approved",
+                              "description": "Auto-approved",
+                              "actionsRequired": "None"
+                            }
+                          }
+                        }
+                      ],
+                      "manualPrivateLinkServiceConnections": [],
+                      "subnet": {
+                        "id": "[concat(parameters('PrivateEndpoint_vNet'), '/subnets/default')]"
+                      },
+                      "customDnsConfigs": []
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as AuditIfNotExists, DeployIfNotExists or Disabled"
+        }
+      },
+      "PrivateEndpoint_vNet": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Private Endpoint Virtual Network",
+          "description": "The Virtual Network associated with the Private Endpoint",
+          "strongType": "Microsoft.Network/virtualNetworks"
+        }
+      }
+    }
+  }
+}

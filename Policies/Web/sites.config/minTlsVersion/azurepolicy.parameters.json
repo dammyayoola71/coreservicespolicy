@@ -1,0 +1,51 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "AuditIfNotExists",
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Deny"
+    }
+  },
+  "minTlsVersion": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Minimum TLS Version",
+      "description": "The minimum TLS Version allowed for App Service web sites. TLS 1.0 has known vulnerabilities and sites should only use if required."
+    },
+    "defaultValue": [
+      "1.0",
+      "1.1",
+      "1.2"
+    ],
+    "allowedValues": [
+      "1.0",
+      "1.1",
+      "1.2"
+    ]
+  },
+  "kind": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Kind of Web Sites",
+      "description": "Choose the type of Web Sites this Policy applies to",
+      "controlID": "N/A",
+      "risk": "Data Leakage"
+    },
+    "allowedValues": [
+      "api",
+      "app",
+      "functionapp"
+    ],
+    "defaultValue": [
+      "api",
+      "app",
+      "functionapp"
+    ]
+  }
+}

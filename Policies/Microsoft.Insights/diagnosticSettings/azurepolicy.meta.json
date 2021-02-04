@@ -1,0 +1,5 @@
+{
+  "displayName": "Diagnostic Logs Secure Settings",
+  "description": "Policies for checking the configuraiton of Diagnostic Settings.",
+  "category": "microsoft.insights"
+}

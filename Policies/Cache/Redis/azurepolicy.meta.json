@@ -1,0 +1,5 @@
+{
+  "displayName": "Redis Cache secure settings",
+  "description": "Policy for Monitoring whether Redis Cache has a non-SSL port enabled and the Minimum allowed TLS Version.",
+  "category": "Cache"
+}

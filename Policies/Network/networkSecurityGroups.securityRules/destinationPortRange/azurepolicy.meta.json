@@ -1,0 +1,5 @@
+{  
+  "displayName": "Port access from the Internet should be blocked",
+  "description": "Policy for monitoring RDP and SSH ports open to the internet.",
+  "category": "Network"
+}

@@ -1,0 +1,125 @@
+{
+  "Name": "Remote debugging turned off for Function Web and API Apps",
+  "properties": {
+    "displayName": "Remote debugging turned off for Function Web and API Apps",
+    "description": "Remote debugging allows for attaching the Visual Studio debugger to Azure Function, Web and API Applications",
+    "mode": "All",
+    "metadata": {
+      "category": "Web",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "in": "[parameters('kind')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/config",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/config/remoteDebuggingEnabled",
+            "in": "[parameters('remoteDebuggingEnabled')]"
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "remoteDebuggingEnabled": {
+                  "value": "[first(parameters('remoteDebuggingEnabled'))]"
+                },
+                "name": {
+                  "value": "[field('name')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "remoteDebuggingEnabled": {
+                    "type": "bool"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Web/sites/config",
+                    "apiVersion": "2020-06-01",
+                    "name": "[concat(parameters('name'), '/web')]",
+                    "properties": {
+                      "remoteDebuggingEnabled": "[parameters('remoteDebuggingEnabled')]"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "kind": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Kind of Web Sites",
+          "description": "Choose the type of Web Sites this Policy applies to",
+          "controlID": "N/A",
+          "risk": "Data Leakage"
+        },
+        "allowedValues": [
+          "api",
+          "app",
+          "functionapp"
+        ],
+        "defaultValue": [
+          "api",
+          "app",
+          "functionapp"
+        ]
+      },
+      "remoteDebuggingEnabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Remote Debugging Enabled",
+          "description": "Whether Remote Debugging is Enabled (true) or not (false)",
+          "controlID": "N/A",
+          "risk": "Data Leakage"
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": [
+          true,
+          false
+        ]
+      }
+    }
+  }
+}

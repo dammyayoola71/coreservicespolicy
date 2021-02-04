@@ -1,0 +1,119 @@
+{
+  "Name": "Azure Active Directory administrator for SQL servers",
+  "properties": {
+    "displayName": "Azure Active Directory administrator for SQL servers",
+    "description": "Audit provisioning of an Azure Active Directory administrator for SQL server to enable Azure AD authentication",
+    "mode": "All",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/administrators",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "login": {
+                  "value": "[parameters('login')]"
+                },
+                "sid": {
+                  "value": "[parameters('sid')]"
+                },
+                "tenantId": {
+                  "value": "[parameters('tenantId')]"
+                },
+                "name": {
+                  "value": "[field('name')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "sid": {
+                    "type": "string"
+                  },
+                  "tenantId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Sql/servers/administrators",
+                    "apiVersion": "2019-06-01-preview",
+                    "name": "[concat(parameters('name'), '/ActiveDirectory')]",
+                    "properties": {
+                      "administratorType": "ActiveDirectory",
+                      "login": "[parameters('login')]",
+                      "sid": "[parameters('sid')]",
+                      "tenantId": "[parameters('tenantId')]"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "login": {
+        "type": "string",
+        "metadata": {
+          "displayName": "AAD Login",
+          "description": "Azure Active Directory UPN of the User or Group who will act as Administrators for SQL Servers",
+          "controlID": "N/A",
+          "risk": "Data Leakage"
+        }
+      },
+      "sid": {
+        "type": "string",
+        "metadata": {
+          "displayName": "AAD SID",
+          "description": "Azure Active Directory Security Identifier (Object ID) of the User or Group who will act as Administrators for SQL Servers",
+          "controlID": "N/A",
+          "risk": "Data Leakage"
+        }
+      },
+      "tenantId": {
+        "type": "string",
+        "metadata": {
+          "displayName": "AAD Tenant ID",
+          "description": "Identifier for the Azure Active Directory Tenant of the User or Group who will act as Administrators for SQL Servers",
+          "controlID": "N/A",
+          "risk": "Data Leakage"
+        }
+      }
+    }
+  }
+}

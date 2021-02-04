@@ -1,0 +1,5 @@
+{
+  "displayName": "SQL Managed Instances secure settings",
+  "description": "Policy for monitoring whether a SQL Managed Instance has the Public Data Endpoint Enabled, true, or not, false",
+  "category": "Sql"
+}

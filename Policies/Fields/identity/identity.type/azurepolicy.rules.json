@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allof": [
+      {
+        "field": "type",
+        "in": "[parameters('identity.type.resourceTypes')]"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "identity.type",
+            "notIn": "[parameters('identity.type.value')]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

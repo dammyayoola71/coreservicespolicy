@@ -1,0 +1,65 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Sql/servers"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Sql/servers/administrators",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ],
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "parameters": {
+            "login": {
+              "value": "[parameters('login')]"
+            },
+            "sid": {
+              "value": "[parameters('sid')]"
+            },
+            "tenantId": {
+              "value": "[parameters('tenantId')]"
+            },
+            "name": {
+              "value": "[field('name')]"
+            }
+          },
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "login": {
+                "type": "string"
+              },
+              "sid": {
+                "type": "string"
+              },
+              "tenantId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Sql/servers/administrators",
+                "apiVersion": "2019-06-01-preview",
+                "name": "[concat(parameters('name'), '/ActiveDirectory')]",
+                "properties": {
+                  "administratorType": "ActiveDirectory",
+                  "login": "[parameters('login')]",
+                  "sid": "[parameters('sid')]",
+                  "tenantId": "[parameters('tenantId')]"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

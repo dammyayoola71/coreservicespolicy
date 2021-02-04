@@ -1,0 +1,32 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "AuditIfNotExists",
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Deny"
+    }
+  },
+  "transparentDataEncryption.status": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Transparent Data Encryption Status",
+      "description": "Determines whether the policy expects Enabled or Disabled Transparent Data Encryption",
+      "controlID": "N/A",
+      "risk": "Data Leakage"
+    },
+    "allowedValues": [
+      "Enabled",
+      "Disabled"
+    ],
+    "defaultValue": [
+      "Enabled",
+      "Disabled"
+    ]
+  }
+}

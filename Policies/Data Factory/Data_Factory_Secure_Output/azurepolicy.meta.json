@@ -1,0 +1,5 @@
+{
+  "displayName": "Data Factory Secure Output",
+  "description": "Policy for checking Data Factory pipeline activities for Secure Output",
+  "category": "Unauthorized Access"
+}

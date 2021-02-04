@@ -1,0 +1,28 @@
+{
+    "if": {
+        "field": "type",
+        "in": "[parameters('resourceTypes')]"
+    },
+    "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+            "type": "Microsoft.Insights/diagnosticSettings",
+            "existenceCondition": {
+                "allof": [
+                    {
+                        "value": "[empty(field('Microsoft.Insights/diagnosticSettings/workspaceId'))]",
+                        "in": "[parameters('workspaceId')]"
+                    },
+                    {
+                        "value": "[empty(field('Microsoft.Insights/diagnosticSettings/storageAccountId'))]",
+                        "in": "[parameters('storageAccountId')]"
+                    },
+                    {
+                        "value": "[empty(field('Microsoft.Insights/diagnosticSettings/eventHubAuthorizationRuleId'))]",
+                        "in": "[parameters('eventHubAuthorizationRuleId')]"
+                    }
+                ]
+            }
+        }
+    }
+}

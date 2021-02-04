@@ -1,0 +1,5 @@
+{
+  "displayName": "Network.virtualNetworks.subnets.networkSecurityGroup",
+  "description": "Policy to determine if a Virtual Network Subnet includes has Network Security Group assigned",
+  "category": "Network"
+}

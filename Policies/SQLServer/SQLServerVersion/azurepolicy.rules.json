@@ -1,0 +1,15 @@
+{
+  "if": {
+    "allOf": [{
+      "field": "type",
+      "equals": "Microsoft.Sql/servers"
+    },
+    {
+      "field": "Microsoft.Sql/servers/version",
+      "notIn": "[parameters('version')]"
+    }]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "name": "NFCU_Protect and Secure_Network and Endpoint Security Enforce",
+  "properties": {
+    "displayName": "NFCU_Protect and Secure_Network and Endpoint Security Enforce",
+    "description": "This initiative contains Network & Endpoint security policies involving versioning, service endpoint usage, securing connections, firewall and application gateway configuration, and open port usage for Azure resources.",
+    "metadata": [
+      {
+        "category": "Network & Endpoint Security"
+      }
+    ],
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "defaultValue": "Audit"
+      },
+      "effectIfNotExists": {
+        "type": "String",
+        "metadata": {
+          "displayName": "effectIfNotExists",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "MySQLSSLEnforcementSettings",
+        "policyDefinitionName": "MySQL SSL Enforcement Settings",    
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "sslEnforcement": {
+            "value": [
+              "Enabled"
+            ]
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "NetworkApplicationGatewaySecureSettings",
+        "policyDefinitionName": "Network Application Gateway Secure Settings",
+        "parameters": {
+          "webApplicationFirewallConfiguration.enabled": {
+            "value": [
+              true
+            ]
+          },
+          "sku.tier": {
+            "value": [
+              "WAF_v2",
+              "WAF"
+            ]
+          },
+          "webApplicationFirewallConfiguration.firewallMode": {
+            "value": [
+              "Prevention"
+            ]
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "PortaccessfromtheInternetshouldbeblocked",
+        "policyDefinitionName": "Port access from the Internet should be blocked",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "destinationPortRange": {
+            "value": [
+              22,
+              3389
+            ]
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "SQLManagedInstancessecuresettings",
+        "policyDefinitionName": "SQL Managed Instances secure settings",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "publicDataEndpointEnabled": {
+            "value": [
+              true
+            ]
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "LatestTLSversionshouldbeusedintheApp",
+        "policyDefinitionName": "Latest TLS version should be used in the App",
+        "parameters": {
+          "minTlsVersion": {
+            "value": [
+              "1.2"
+            ]
+          },
+          "effect": {
+            "value": "[parameters('effectIfNotExists')]"
+          },
+          "kind": {
+            "value": [
+              "api",
+              "app",
+              "functionapp"
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

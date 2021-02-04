@@ -1,0 +1,42 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "AuditIfNotExists",
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Deny"
+    }
+  },
+  "login": {
+    "type": "string",
+    "metadata": {
+      "displayName": "AAD Login",
+      "description": "Azure Active Directory UPN of the User or Group who will act as Administrators for SQL Servers",
+      "controlID": "N/A",
+      "risk": "Data Leakage"
+    }
+  },
+  "sid": {
+    "type": "string",
+    "metadata": {
+      "displayName": "AAD SID",
+      "description": "Azure Active Directory Security Identifier (Object ID) of the User or Group who will act as Administrators for SQL Servers",
+      "controlID": "N/A",
+      "risk": "Data Leakage"
+    }
+  },
+  "tenantId": {
+    "type": "string",
+    "metadata": {
+      "displayName": "AAD Tenant ID",
+      "description": "Identifier for the Azure Active Directory Tenant of the User or Group who will act as Administrators for SQL Servers",
+      "controlID": "N/A",
+      "risk": "Data Leakage"
+    }
+  }
+}

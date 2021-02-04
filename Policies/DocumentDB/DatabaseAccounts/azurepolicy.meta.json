@@ -1,0 +1,5 @@
+{
+    "displayName": "Cosmos DB Secure Settings",
+    "description": "Azure Policy for Cosmos DB.",
+    "category":  "DocumentDB"
+}

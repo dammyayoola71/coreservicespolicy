@@ -1,0 +1,38 @@
+pool:
+  name: Cloud Pool
+  demands: Agent.OS -equals Windows_NT
+
+trigger: none
+
+variables:
+  scope: 'bafec986-6607-483b-a320-3fc1e64b5a10'
+  defRootFolder: '"$(System.DefaultWorkingDirectory)\"'
+  managementGroupName: $null
+
+steps:
+- task: AzurePowerShell@5
+  displayName: 'Remove Policy Assignment'
+  inputs:
+    azureSubscription: AzureRM-INFOSEC-SDBX
+    ScriptPath: 'Libraries/Tools/Az/Remove-PolicyDefinition.ps1'
+    ScriptArguments: '-scope $(scope)'
+    FailOnStandardError: false
+    azurePowerShellVersion: LatestVersion
+    pwsh: true
+
+- task: PowerShell@2
+  inputs:
+    filePath: 'Libraries/Tools/Misc/allPolicies.ps1'
+    arguments: '-defRootFolder $(defRootFolder)'
+
+- task: AzurePowerShell@4
+  displayName: 'Create Policy Definition'
+  inputs:
+    azureSubscription: AzureRM-INFOSEC-SDBX
+    ScriptPath: 'Libraries/Tools/Az/batchCreatePolicies.ps1'
+    ScriptArguments: '-policyDefRootFolder $(defRootFolder) 
+                      -managementGroupName $null
+                      -modifiedPolicies $(allPolicies)
+                      -branchName $(Build.SourceBranchName)'
+    azurePowerShellVersion: LatestVersion
+  condition: and(succeeded(), ne(variables['allPolicies'], ''))

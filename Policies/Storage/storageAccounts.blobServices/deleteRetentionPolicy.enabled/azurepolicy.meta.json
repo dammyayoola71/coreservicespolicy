@@ -1,0 +1,5 @@
+{
+  "displayName": "Soft Delete on Blob Storage accounts",
+  "description": "Policy to configure Soft Delete on Blob Storage accounts",
+  "category": "Storage"
+}

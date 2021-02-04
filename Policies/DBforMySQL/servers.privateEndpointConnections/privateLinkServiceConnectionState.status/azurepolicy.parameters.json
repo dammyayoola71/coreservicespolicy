@@ -1,0 +1,23 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "AuditIfNotExists",
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as AuditIfNotExists, DeployIfNotExists or Disabled"
+    }
+  },
+  "PrivateEndpoint_vNet": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Private Endpoint Virtual Network",
+      "description": "The Virtual Network associated with the Private Endpoint",
+      "strongType": "Microsoft.Network/virtualNetworks"
+    }
+  }
+}

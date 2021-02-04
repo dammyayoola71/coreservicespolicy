@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allof": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "value": "[empty(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup'))]",
+        "notIn": "[parameters('subnets.star.networkSecurityGroup')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

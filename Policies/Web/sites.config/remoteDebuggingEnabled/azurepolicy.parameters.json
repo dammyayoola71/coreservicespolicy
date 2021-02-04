@@ -1,0 +1,51 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "AuditIfNotExists",
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Deny"
+    }
+  },
+  "kind": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Kind of Web Sites",
+      "description": "Choose the type of Web Sites this Policy applies to",
+      "controlID": "N/A",
+      "risk": "Data Leakage"
+    },
+    "allowedValues": [
+      "api",
+      "app",
+      "functionapp"
+    ],
+    "defaultValue": [
+      "api",
+      "app",
+      "functionapp"
+    ]
+  },
+  "remoteDebuggingEnabled": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Remote Debugging Enabled",
+      "description": "Whether Remote Debugging is Enabled (true) or not (false)",
+      "controlID": "N/A",
+      "risk": "Data Leakage"
+    },
+    "allowedValues": [
+      true,
+      false
+    ],
+    "defaultValue": [
+      true,
+      false
+    ]
+  }
+}

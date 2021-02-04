@@ -1,0 +1,29 @@
+variables:
+  policyDefRootFolder: '"$(System.DefaultWorkingDirectory)/"'
+  managementGroupName: $null
+
+# specific path build
+trigger:
+  branches:
+    include:
+    - InfoSecDevelopment
+  paths:
+    include:
+    - Policies/*
+
+steps:
+- task: PowerShell@2
+  inputs:
+    filePath: 'Libraries/Tools/Misc/checkDiff.ps1'
+
+- task: AzurePowerShell@4
+  displayName: 'Create Policy Definition'
+  inputs:
+    azureSubscription: AzureRM-INFOSEC-SDBX
+    ScriptPath: 'Libraries/Tools/Az/batchCreatePolicies.ps1'
+    ScriptArguments: '-policyDefRootFolder $(policyDefRootFolder) 
+                      -managementGroupName $(managementGroupName)
+                      -modifiedPolicies $(uniquModifiedPolicies)
+                      -branchName $(Build.SourceBranchName)'
+    azurePowerShellVersion: LatestVersion
+  condition: and(succeeded(), ne(variables['uniquModifiedPolicies'], ''))

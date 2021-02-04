@@ -1,0 +1,44 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "AuditIfNotExists",
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Deny"
+    }
+  },
+  "default.shareDeleteRetentionPolicy.enabled": {
+    "type": "array",
+    "metadata": {
+      "displayName": "File Storage Soft Delete",
+      "description": "Determine whether Soft Delete is enabled (true) or not (false)",
+      "controlID": "N/A",
+      "risk": "Operational Risk"
+    },
+    "allowedValues": [
+      true,
+      false,
+      null
+    ],
+    "defaultValue": [
+      true,
+      false,
+      null
+    ]
+  },
+  "retentionDays": {
+    "type": "integer",
+    "defaultValue": 7,
+    "metadata": {
+      "displayName": "The value in days of the retention period",
+      "description": "Set the number of days that a blob marked for deletion persists until it's permanently deleted",
+      "controlID": "N/A",
+      "risk": "Operational Risk"
+    }
+  }
+}

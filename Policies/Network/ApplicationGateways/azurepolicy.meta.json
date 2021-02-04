@@ -1,0 +1,5 @@
+{
+    "displayName": "Network Application Gateway Secure Settings",
+    "description": "Azure Policy for Network Application Gateway secure settings that include WAF Firewall, WAF enablement, and WAF v2 settings.",
+    "category":  "Network"
+}

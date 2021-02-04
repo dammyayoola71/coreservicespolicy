@@ -1,0 +1,29 @@
+{
+    "if":  {
+               "allof":  [
+                             {
+                                 "field":  "type",
+                                 "equals":  "Microsoft.Network/applicationGateways"
+                             },
+                             {
+                                 "anyOf":  [
+                                               {
+                                                   "field":  "Microsoft.Network/applicationGateways/sku.tier",
+                                                   "notIn":  "[parameters('sku.tier')]"
+                                               },
+                                               {
+                                                   "field":  "Microsoft.Network/applicationGateways/webApplicationFirewallConfiguration.firewallMode",
+                                                   "notIn":  "[parameters('webApplicationFirewallConfiguration.firewallMode')]"
+                                               },
+                                               {
+                                                   "field":  "Microsoft.Network/applicationGateways/webApplicationFirewallConfiguration.enabled",
+                                                   "notIn":  "[parameters('webApplicationFirewallConfiguration.enabled')]"
+                                               }
+                                           ]
+                             }
+                         ]
+           },
+    "then":  {
+                 "effect":  "[parameters('effect')]"
+             }
+}

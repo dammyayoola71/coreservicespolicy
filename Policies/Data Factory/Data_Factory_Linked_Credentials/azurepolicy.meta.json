@@ -1,0 +1,5 @@
+{
+  "displayName": "Data Factory Linked Credentials",
+  "description": "Policy for checking Data Factory Linked Credentials not in a Key Vault",
+  "category": "Unauthorized Access"
+}

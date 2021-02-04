@@ -1,0 +1,52 @@
+{
+    "name": "DT Prod EUS",
+    "scope": {
+        "type": "Subscription",
+        "Name": "SPOKE-DT-PROD-EUS" 
+    },
+    "globalParameters": {
+        "effect": {
+            "value": "Audit"
+        }
+    },
+    "globalNotScope": [
+        "/subscriptions/32bb04e7-7fcc-4a12-a9e7-9f557768d7a2/resourceGroups/databricks-rg-DT-ML-PROD-EUS-ADB-ccynw2wopjske",
+        "/subscriptions/32bb04e7-7fcc-4a12-a9e7-9f557768d7a2/resourceGroups/databricks-rg-DT-BA-PROD-EUS-ADB-z6szkcj3r4kpm",
+        "/subscriptions/32bb04e7-7fcc-4a12-a9e7-9f557768d7a2/resourceGroups/databricks-rg-DT-PROD-EUS-ADB-of3eun3co5lzk",
+        "/subscriptions/32bb04e7-7fcc-4a12-a9e7-9f557768d7a2/resourceGroups/databricks-rg-dt-busds-prod-eus-adb-bix3ph3yrdlxm"
+    ],
+    "policies": [
+    ],
+    "initiatives": [
+        {
+            "initiativeName": "NFCU_Manage and Govern_Application Security",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Protect and Secure_Data Privacy and Protection",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Protect and Secure_Digital Identity",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Protect and Secure_Network and Endpoint Security",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Visibility and Monitoring_Cyber Defense",
+            "parameters": {
+
+            }
+        }
+    ]
+}

@@ -1,0 +1,394 @@
+{
+  "name": "Diagnostic Settings for RecoveryServices Vaults",
+  "properties": {
+    "displayName": "Diagnostic Settings for RecoveryServices Vaults",
+    "description": "Policy for enforcing Diagnostic Settings for RecoveryServices Vaults.",
+    "metadata": {
+      "category": "microsoft.insights",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.RecoveryServices/vaults"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "AzureBackupReport": {
+                  "value": "[parameters('AzureBackupReport')]"
+                },
+                "CoreAzureBackup": {
+                  "value": "[parameters('CoreAzureBackup')]"
+                },
+                "AddonAzureBackupJobs": {
+                  "value": "[parameters('AddonAzureBackupJobs')]"
+                },
+                "AddonAzureBackupAlerts": {
+                  "value": "[parameters('AddonAzureBackupAlerts')]"
+                },
+                "AddonAzureBackupPolicy": {
+                  "value": "[parameters('AddonAzureBackupPolicy')]"
+                },
+                "AddonAzureBackupStorage": {
+                  "value": "[parameters('AddonAzureBackupStorage')]"
+                },
+                "AddonAzureBackupProtectedInstance": {
+                  "value": "[parameters('AddonAzureBackupProtectedInstance')]"
+                },
+                "AzureSiteRecoveryJobs": {
+                  "value": "[parameters('AzureSiteRecoveryJobs')]"
+                },
+                "AzureSiteRecoveryEvents": {
+                  "value": "[parameters('AzureSiteRecoveryEvents')]"
+                },
+                "AzureSiteRecoveryReplicatedItems": {
+                  "value": "[parameters('AzureSiteRecoveryReplicatedItems')]"
+                },
+                "AzureSiteRecoveryReplicationStats": {
+                  "value": "[parameters('AzureSiteRecoveryReplicationStats')]"
+                },
+                "AzureSiteRecoveryRecoveryPoints": {
+                  "value": "[parameters('AzureSiteRecoveryRecoveryPoints')]"
+                },
+                "AzureSiteRecoveryReplicationDataUploadRate": {
+                  "value": "[parameters('AzureSiteRecoveryReplicationDataUploadRate')]"
+                },
+                "AzureSiteRecoveryProtectedDiskDataChurn": {
+                  "value": "[parameters('AzureSiteRecoveryProtectedDiskDataChurn')]"
+                },
+                "workspaceId": {
+                  "value": "[parameters('workspaceId')]"
+                },
+                "vaultName": {
+                  "value": "[field('fullName')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "AzureBackupReport": {
+                    "type": "bool"
+                  },
+                  "CoreAzureBackup": {
+                    "type": "bool"
+                  },
+                  "AddonAzureBackupJobs": {
+                    "type": "bool"
+                  },
+                  "AddonAzureBackupAlerts": {
+                    "type": "bool"
+                  },
+                  "AddonAzureBackupPolicy": {
+                    "type": "bool"
+                  },
+                  "AddonAzureBackupStorage": {
+                    "type": "bool"
+                  },
+                  "AddonAzureBackupProtectedInstance": {
+                    "type": "bool"
+                  },
+                  "AzureSiteRecoveryJobs": {
+                    "type": "bool"
+                  },
+                  "AzureSiteRecoveryEvents": {
+                    "type": "bool"
+                  },
+                  "AzureSiteRecoveryReplicatedItems": {
+                    "type": "bool"
+                  },
+                  "AzureSiteRecoveryReplicationStats": {
+                    "type": "bool"
+                  },
+                  "AzureSiteRecoveryRecoveryPoints": {
+                    "type": "bool"
+                  },
+                  "AzureSiteRecoveryReplicationDataUploadRate": {
+                    "type": "bool"
+                  },
+                  "AzureSiteRecoveryProtectedDiskDataChurn": {
+                    "type": "bool"
+                  },
+                  "workspaceId": {
+                    "type": "string"
+                  },
+                  "vaultName": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.RecoveryServices/vaults/providers/diagnosticSettings",
+                    "apiVersion": "2017-05-01-preview",
+                    "name": "[concat(parameters('vaultName'), '/Microsoft.Insights/diagnosticSettings', parameters('vaultName'), '-DIAG')]",
+                    "properties": {
+                      "workspaceId": "[parameters('workspaceId')]",
+                      "logs": [
+                        {
+                          "category": "AzureBackupReport",
+                          "enabled": "[parameters('AzureBackupReport')]"
+                        },
+                        {
+                          "category": "CoreAzureBackup",
+                          "enabled": "[parameters('CoreAzureBackup')]"
+                        },
+                        {
+                          "category": "AddonAzureBackupJobs",
+                          "enabled": "[parameters('AddonAzureBackupJobs')]"
+                        },
+                        {
+                          "category": "AddonAzureBackupAlerts",
+                          "enabled": "[parameters('AddonAzureBackupAlerts')]"
+                        },
+                        {
+                          "category": "AddonAzureBackupPolicy",
+                          "enabled": "[parameters('AddonAzureBackupPolicy')]"
+                        },
+                        {
+                          "category": "AddonAzureBackupStorage",
+                          "enabled": "[parameters('AddonAzureBackupStorage')]"
+                        },
+                        {
+                          "category": "AddonAzureBackupProtectedInstance",
+                          "enabled": "[parameters('AddonAzureBackupProtectedInstance')]"
+                        },
+                        {
+                          "category": "AzureSiteRecoveryJobs",
+                          "enabled": "[parameters('AzureSiteRecoveryJobs')]"
+                        },
+                        {
+                          "category": "AzureSiteRecoveryEvents",
+                          "enabled": "[parameters('AzureSiteRecoveryEvents')]"
+                        },
+                        {
+                          "category": "AzureSiteRecoveryReplicatedItems",
+                          "enabled": "[parameters('AzureSiteRecoveryReplicatedItems')]"
+                        },
+                        {
+                          "category": "AzureSiteRecoveryReplicationStats",
+                          "enabled": "[parameters('AzureSiteRecoveryReplicationStats')]"
+                        },
+                        {
+                          "category": "AzureSiteRecoveryRecoveryPoints",
+                          "enabled": "[parameters('AzureSiteRecoveryRecoveryPoints')]"
+                        },
+                        {
+                          "category": "AzureSiteRecoveryReplicationDataUploadRate",
+                          "enabled": "[parameters('AzureSiteRecoveryReplicationDataUploadRate')]"
+                        },
+                        {
+                          "category": "AzureSiteRecoveryProtectedDiskDataChurn",
+                          "enabled": "[parameters('AzureSiteRecoveryProtectedDiskDataChurn')]"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "workspaceId": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics Workspace",
+          "description": "Choose the Log Analytics Workspace to send Diagnostic Logs to",
+          "strongType": "Microsoft.OperationalInsights/workspaces"
+        }
+      },
+      "AzureBackupReport": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Azure Backup Report?",
+          "description": "Choose whether to capture Azure Backup Report"
+        }
+      },
+      "CoreAzureBackup": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Core Azure Backup?",
+          "description": "Choose whether to capture Core Azure Backup"
+        }
+      },
+      "AddonAzureBackupJobs": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Addon Azure Backup Jobs?",
+          "description": "Choose whether to capture Addon Azure Backup Jobs"
+        }
+      },
+      "AddonAzureBackupAlerts": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Addon Azure Backup Alerts?",
+          "description": "Choose whether to capture Addon Azure Backup Alerts"
+        }
+      },
+      "AddonAzureBackupPolicy": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Addon Azure Backup Policy?",
+          "description": "Choose whether to capture Addon Azure Backup Policy"
+        }
+      },
+      "AddonAzureBackupStorage": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Addon Azure Backup Storage?",
+          "description": "Choose whether to capture Addon Azure Backup Storage"
+        }
+      },
+      "AddonAzureBackupProtectedInstance": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Addon Azure Backup Protected Instance?",
+          "description": "Choose whether to capture Addon Azure Backup Protected Instance"
+        }
+      },
+      "AzureSiteRecoveryJobs": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Azure Site Recovery Jobs?",
+          "description": "Choose whether to capture Azure Site Recovery Jobs"
+        }
+      },
+      "AzureSiteRecoveryEvents": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Azure Site Recovery Events?",
+          "description": "Choose whether to capture Azure Site Recovery Events"
+        }
+      },
+      "AzureSiteRecoveryReplicatedItems": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Azure Site Recovery Replicated Items?",
+          "description": "Choose whether to capture Azure Site Recovery Replicated Items"
+        }
+      },
+      "AzureSiteRecoveryReplicationStats": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Azure Site Recovery Replication Stats?",
+          "description": "Choose whether to capture Azure Site Recovery Replication Stats"
+        }
+      },
+      "AzureSiteRecoveryRecoveryPoints": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Azure Site Recovery Recovery Points?",
+          "description": "Choose whether to capture Azure Site Recovery Recovery Points"
+        }
+      },
+      "AzureSiteRecoveryReplicationDataUploadRate": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Azure Site Recovery Replication Data Upload Rate?",
+          "description": "Choose whether to capture Azure Site Recovery Replication Data Upload Rate"
+        }
+      },
+      "AzureSiteRecoveryProtectedDiskDataChurn": {
+        "type": "boolean",
+        "defaultValue": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "metadata": {
+          "displayName": "Capture Azure Site Recovery Protected Disk Data Churn?",
+          "description": "Choose whether to capture Azure Site Recovery Protected Disk Data Churn"
+        }
+      }
+    }
+  }
+}

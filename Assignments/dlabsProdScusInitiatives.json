@@ -1,0 +1,25 @@
+{
+    "name": "DLABS Prod SCUS",
+    "scope": {
+        "type": "Subscription",
+        "Name": "NFCU-SPOKE-DLABS-PROD-PAAS-SCUS" 
+    },
+    "globalParameters": {
+         "storageAccountsResourceGroup": {
+            "value": "azurepolicy_sqlauditing"
+        },
+        "logAnalyticsWorkspace": {
+            "value": "/subscriptions/7b7142c5-8cd1-4fc8-a6eb-c069683ad7e8/resourcegroups/nfcu-hub-scus-monitor-rg/providers/microsoft.operationalinsights/workspaces/hub-scus-workspace"
+        }
+    },
+    "policies": [
+    ],
+    "initiatives": [
+        {
+            "initiativeName": "SecBenchmarkEnforce v1.0",
+            "parameters": {
+
+            }
+        }
+    ]
+}

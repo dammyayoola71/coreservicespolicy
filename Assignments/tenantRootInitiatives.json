@@ -1,0 +1,17 @@
+{
+    "name": "Tenant Root Group",
+    "scope": {
+        "type": "Management Group",
+        "Name": "4cb791f1-02d1-4a4e-8610-911ee57bb08c" 
+    },
+    "globalParameters": {
+    },
+    "initiatives": [
+        {
+            "initiativeName": "SecBenchmarkAudit v1.0",
+            "parameters": {
+
+            }
+        }
+    ]
+}

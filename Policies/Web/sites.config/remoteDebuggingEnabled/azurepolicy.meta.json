@@ -1,0 +1,5 @@
+{
+  "displayName": "Remote debugging turned off for Function Web and API Apps",
+  "description": "Remote debugging allows for attaching the Visual Studio debugger to Azure Function, Web and API Applications",
+  "category": "Web"
+}

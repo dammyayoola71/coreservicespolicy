@@ -1,0 +1,37 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.KeyVault/vaults"
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "Microsoft.KeyVault/vaults/enabledForDeployment",
+                        "notIn": "[parameters('enabledForDeployment')]"
+                    },
+                    {
+                        "field": "Microsoft.KeyVault/vaults/enabledForDiskEncryption",
+                        "notIn": "[parameters('enabledForDiskEncryption')]"
+                    },
+                    {
+                        "field": "Microsoft.KeyVault/vaults/enabledForTemplateDeployment",
+                        "notIn": "[parameters('enabledForTemplateDeployment')]"
+                    },
+                    {
+                        "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
+                        "notIn": "[parameters('enablePurgeProtection')]"
+                    },
+                    {
+                        "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
+                        "notIn": "[parameters('enableSoftDelete')]"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

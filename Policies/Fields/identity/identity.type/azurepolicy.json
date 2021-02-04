@@ -1,0 +1,81 @@
+{
+  "Name": "Managed Identity secure settings",
+  "properties": {
+    "displayName": "Managed Identity secure settings",
+    "description": "The _identity.type_ field returns the type of Managed Identity associated with the resource. Users can choose to add a Managed Identity as a System Assigned or User Assigned security principal",
+    "mode": "All",
+    "metadata": {
+      "category": "GuestConfiguration",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allof": [
+          {
+            "field": "type",
+            "in": "[parameters('identity.type.resourceTypes')]"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "identity.type",
+                "notIn": "[parameters('identity.type.value')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "identity.type.resourceTypes": {
+        "type": "array",
+        "defaultValue": [
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.RecoveryServices/vaults"
+        ],
+        "allowedValues": [
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.RecoveryServices/vaults"
+        ],
+        "metadata": {
+          "displayName": "Resource Types",
+          "description": "Select the Resource Types that should have Diagnostics sent to Log Analytics"
+        }
+      },
+      "identity.type.value": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Type of managed identity",
+          "description": "Parameter to monitor whether a managed identity exists on the targeted resource(s)",
+          "controlID": "N/A",
+          "risk": "Operational Risk"
+        },
+        "allowedValues": [
+          "SystemAssigned",
+          "UserAssigned",
+          null
+        ],
+        "defaultValue": [
+          "SystemAssigned",
+          "UserAssigned",
+          null
+        ]
+      }
+    }
+  }
+}

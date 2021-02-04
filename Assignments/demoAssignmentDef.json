@@ -1,0 +1,19 @@
+{
+    "name": "Test Assignment Defintion.",
+    "scope": {
+        "type": "Subscription",
+        "Name": "NFCU-INFOSEC-SDBX" 
+    },
+    "globalParameters": {
+    },
+    "policies": [
+    ],
+    "initiatives": [
+        {
+            "initiativeName": "NFCU Security Benchmark Enforce v1.0",
+            "parameters": {
+
+            }
+        }
+    ]
+}

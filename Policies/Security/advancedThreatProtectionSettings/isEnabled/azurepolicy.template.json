@@ -1,0 +1,22 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string"
+    },
+    "isEnabled": {
+      "type": "array"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2019-01-01",
+      "type": "Microsoft.Storage/storageAccounts/providers/advancedThreatProtectionSettings",
+      "name": "[concat(parameters('storageAccountName'), '/Microsoft.Security/current')]",
+      "properties": {
+        "isEnabled": "[first(parameters('isEnabled'))]"
+      }
+    }
+  ]
+}

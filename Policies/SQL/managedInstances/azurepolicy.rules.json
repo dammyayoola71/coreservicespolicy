@@ -1,0 +1,41 @@
+{
+    "if": {
+        "allof": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Sql/managedInstances"
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/virtualNetworks"
+                    },
+                    {
+                        "field": "Microsoft.Sql/managedInstances/publicDataEndpointEnabled",
+                        "notIn": "[parameters('publicDataEndpointEnabled')]"
+                    },
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/virtualNetworks"
+                    },
+                    {
+                        "field": "Microsoft.Sql/managedInstances/publicDataEndpointEnabled",
+                        "notIn": "[parameters('publicDataEndpointEnabled')]"
+                    },
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/virtualNetworks"
+                    },
+                    {
+                        "field": "Microsoft.Sql/managedInstances/publicDataEndpointEnabled",
+                        "notIn": "[parameters('publicDataEndpointEnabled')]"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

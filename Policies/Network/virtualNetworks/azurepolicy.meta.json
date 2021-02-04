@@ -1,0 +1,6 @@
+{
+  "displayName": "Virtual Network secure settings",
+  "description": "Policy for monitoring Microsoft.Network Virtual Networks: Whether subnets have NSGs, Subnets include approved names and whether DDoS is enabled",
+  "category": "Network",
+  "apiVersion": "2020-04-01"
+}

@@ -1,0 +1,31 @@
+{
+    "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+            "Audit",
+            "Deny"
+        ],
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Define the effect of the Policy as Audit or Deny"
+      }
+    },
+    "publicDataEndpointEnabled": {
+        "type": "array",
+        "metadata": {
+            "displayName": "Public Data Endpoint Enabled",
+            "description": "Policy for monitoring whether a SQL Managed Instance has the Public Data Endpoint Enabled, true, or not, false.",
+            "controlID": "N/A",
+            "risk": "Intrusion"
+        },
+        "allowedValues": [
+            true,
+            false
+        ],
+        "defaultValue": [
+            true,
+            false
+        ]
+    }
+}

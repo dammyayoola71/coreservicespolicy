@@ -1,0 +1,134 @@
+{
+  "name": "NFCU_Manage and Govern_Application Security Enforce",
+  "properties": {
+    "displayName": "NFCU_Manage and Govern_Application Security Enforce",
+    "description": "This initiative contains Application Security policies involving app client certificates, Secure transfer protocols, remote debugging access, and authorization access rules",
+    "metadata": [
+      {
+        "category": "Application Security"
+      }
+    ],
+    "policyDefinitionGroups": [],
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "defaultValue": "Audit"
+      },
+      "effectIfNotExists": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "AllauthorizationrulesexceptRootManageSharedAccessKeyshouldberemovedfromEventHubnamespace",
+        "policyDefinitionName": "b278e460-7cfc-4451-8294-cccc40a940d7",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AllauthorizationrulesexceptRootManageSharedAccessKeyshouldberemovedfromServiceBusnamespace",
+        "policyDefinitionName": "a1817ec0-a368-432a-8057-8371e17ac6ee",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "WebSitesaccessibleoverHTTPS",
+        "policyDefinitionName": "Web Sites accessible over HTTPS",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "kind": {
+            "value": [
+              "api",
+              "app",
+              "functionapp"
+            ]
+          },
+          "httpsOnly": {
+            "value": [
+              "true",
+              "false"
+            ]
+          },
+          "clientCertEnabled": {
+            "value": [
+              true,
+              false
+            ]
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "RedisCachesecuresettings",
+        "policyDefinitionName": "Redis Cache secure settings",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "enableNonSslPort": {
+            "value": [
+              true,
+              false
+            ]
+          },
+          "minimumTlsVersion": {
+            "value": [
+              "1.2"
+            ]
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "RemotedebuggingturnedoffforFunctionWebandAPIApps",
+        "policyDefinitionName": "Remote debugging turned off for Function Web and API Apps",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effectIfNotExists')]"
+          },
+          "kind": {
+            "value": [
+              "api",
+              "app",
+              "functionapp"
+            ]
+          },
+          "remoteDebuggingEnabled": {
+            "value": [
+              false
+            ]
+          }
+        },
+        "groupNames": []
+      }
+    ]
+  }
+}

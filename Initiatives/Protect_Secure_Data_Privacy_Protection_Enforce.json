@@ -1,0 +1,216 @@
+{
+  "name": "NFCU_Protect and Secure_Data Privacy and Protection Enforce",
+  "properties": {
+    "displayName": "NFCU_Protect and Secure_Data Privacy and Protection Enforce",
+    "description": "This initiative contains Data privacy and Protection policies involving Logging, Data transfers, Versioning and recoverability security controls for Azure Resources.",
+    "metadata": [
+      {
+      "category": "Data Privacy"
+      }
+    ],
+    "policyDefinitionGroups": [
+    ],
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Define the effect of the Policy as Audit or Deny"
+        },
+        "allowedValues": [
+            "Audit",
+            "Deny"
+        ],
+        "defaultValue": "Audit"
+      },
+      "effectIfNotExists": {
+        "type": "string",
+        "metadata": {
+            "displayName": "effectIfNotExists",
+            "description": "Define the effect of the Policy as Audit or Deny"
+        },
+        "allowedValues": [
+            "AuditIfNotExists",
+            "DeployIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "effectIfNotExistsNoAudit": {
+        "type": "string",
+        "metadata": {
+            "displayName": "effectIfNotExistsNoAudit",
+            "description": "Define the effect of the Policy as Audit or Deny"
+        },
+        "allowedValues": [
+            "DeployIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "retentionDays": {
+        "type": "String",
+        "metadata": {
+          "description": "The value in days of the retention period (0 indicates unlimited retention)",
+          "displayName": "Retention days (optional, 180 days if unspecified)"
+        },
+        "defaultValue": "180"
+      },
+      "storageAccountsResourceGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Resource group name for storage accounts",
+          "description": "Auditing writes database events to an audit log in your Azure Storage account (a storage account will be created in each region where a SQL Server is created that will be shared by all servers in that region). Important - for proper operation of Auditing do not delete or rename the resource group or the storage accounts.",
+        }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "KeyVaultSecureSettings",
+        "policyDefinitionName": "Key Vault Secure Settings",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "enabledForTemplateDeployment": {
+            "value": [
+              true,
+              false
+            ]
+          },
+          "enablePurgeProtection": {
+            "value": [
+              true
+            ]
+          },
+          "enabledForDiskEncryption": {
+            "value": [
+              true,
+              false
+            ]
+          },
+          "enableSoftDelete": {
+            "value": [
+              true
+            ]
+          },
+          "enabledForDeployment": {
+            "value": [
+              true,
+              false
+            ]
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "DeployAdvanceddatasecurityonSQLserver",
+        "policyDefinitionName": "6134c3db-786f-471e-87bc-8f479dc890f6",
+        "parameters": {}
+      },
+      {
+        "policyDefinitionReferenceId": "AnAzureActiveDirectoryadministratorshouldbeprovisionedforSQLservers",
+        "policyDefinitionName": "1f314764-cb73-4fc9-b863-8eca98ac36e9",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "DeployAuditingonSQLServers",
+        "policyDefinitionName": "f4c68484-132f-41f9-9b6d-3e4b1cb55036",
+        "parameters": {
+          "retentionDays": {
+            "value": "180"
+          },
+          "storageAccountsResourceGroup": {
+            "value": "[parameters('storageAccountsResourceGroup')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Automationaccountvariablesshouldbeencrypted",
+        "policyDefinitionName": "3657f5a0-770e-44a3-b44e-9431ba1e9735",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "DeployAdvancedThreatProtectiononStorageAccounts",
+        "policyDefinitionName": "361c2074-3595-4e5d-8cab-4f21dffc835c",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effectIfNotExistsNoAudit')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "SoftDeleteonBlobStorageaccountsV2.0",
+        "policyDefinitionName": "Soft Delete on Blob Storage accounts V2.0",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effectIfNotExists')]"
+          },
+          "retentionDays": {
+            "value": 180
+          },
+          "isHnsEnabled": {
+            "value": [
+              false,
+              null
+            ]
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "FileStorageEncryptionV2.0",
+        "policyDefinitionName": "File Storage Encryption v2.0",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Securetransfertostorageaccountsshouldbeenabled",
+        "policyDefinitionName": "404c3081-a854-4457-ae30-26a93ef643f9",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "SQLServerVersionSettings",
+        "policyDefinitionName": "SQL Server Version Settings",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "version": {
+            
+            "value": [
+              "12.0"
+            ]
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "EnableTransparentDataEncryptiononSQLdatabases",
+        "policyDefinitionName": "Enable Transparent Data Encryption on SQL databases",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effectIfNotExists')]"
+          },
+          "transparentDataEncryption.status": {
+            "value": [
+              "Enabled"
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

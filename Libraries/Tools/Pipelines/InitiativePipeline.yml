@@ -1,0 +1,104 @@
+pool:
+  name: Cloud Pool
+  demands: Agent.OS -equals Windows_NT
+
+trigger:
+  branches:
+    # branch names are case senititve
+    include:
+    - development
+    - InfoSecDevelopment
+    - master
+  paths:
+    # triggers only on modification to contents of initiative directory
+    include:
+    - Initiatives/*
+    exclude:
+    - Inititaives/README.MD
+
+variables:
+  rootFolder: '"$(System.DefaultWorkingDirectory)/"'
+  folderName: "Initiatives"
+  # mgID where azure policy definitions are stored, best practice is Tentant Root Group
+  managementGroupID: "4cb791f1-02d1-4a4e-8610-911ee57bb08c"
+  # service connections specific to each deployment environment
+  devServiceConnection: "AzureRM-DevOps-SDBX"
+  infoSecServiceConnection: "AzureRM-INFOSEC-SDBX"
+  rootMgServiceConnection: 'AzureRM-Tenant-Root'
+
+stages:
+# this stage keys off the development branch
+- stage: create_initiative_def_cloud_devops
+  displayName: 'Create Initiative definition in Development Subscription'
+  condition: and(always(), contains(variables['Build.SourceBranch'], 'refs/heads/development'))
+  jobs:
+    - job:
+      steps:
+      - task: PowerShell@2
+        displayName: 'Get Modified Initiative'
+        condition: ne(variables['Build.Reason'], 'Manual')
+        inputs:
+          filePath: 'Libraries/Tools/Misc/checkDiff.ps1'
+          arguments: '-folderName $(folderName)
+                      -defRootFolder $(rootFolder)'
+      - task: AzurePowerShell@5
+        displayName: 'Create Initiative Definition'
+        inputs:
+          azureSubscription: $(devServiceConnection)
+          ScriptPath: 'Libraries/Tools/Az/Create-InitiativeDef.ps1'
+          ScriptArguments: '-rootFolder $(rootFolder)
+                            -modifiedInitiatives $(initiatives)
+                            -managementGroupName $(managementGroupID)'
+          FailOnStandardError: false
+          azurePowerShellVersion: LatestVersion
+          pwsh: true
+# this stage keys off the infosecdevelopment branch
+- stage: create_initiative_def_infosec_sdbx
+  displayName: 'Create Initiative definition in InfoSec Subscription'
+  condition: and(always(), contains(variables['Build.SourceBranch'], 'refs/heads/InfoSecDevelopment'))
+  jobs:
+    - job:
+      steps:
+      - task: PowerShell@2
+        displayName: 'Get Modified Initiative'
+        condition: ne(variables['Build.Reason'], 'Manual')
+        inputs:
+          filePath: 'Libraries/Tools/Misc/checkDiff.ps1'
+          arguments: '-folderName $(folderName)
+                      -defRootFolder $(rootFolder)'
+      - task: AzurePowerShell@5
+        displayName: 'Create Initiative Definition'
+        inputs:
+          azureSubscription: $(infoSecServiceConnection)
+          ScriptPath: 'Libraries/Tools/Az/Create-InitiativeDef.ps1'
+          ScriptArguments: '-rootFolder $(rootFolder)
+                            -modifiedInitiatives $(initiatives)
+                            -managementGroupName $(managementGroupID)'
+          FailOnStandardError: false
+          azurePowerShellVersion: LatestVersion
+          pwsh: true
+# this stage keys off of master
+- stage: create_initiative_def_Tenant_Root_Group
+  displayName: 'Create Initiative definition in Tenant Root Group'
+  condition: and(always(), contains(variables['Build.SourceBranch'], 'refs/heads/Master'))
+  jobs:
+    - job:
+      steps:
+      - task: PowerShell@2
+        displayName: 'Get Modified Initiative'
+        condition: ne(variables['Build.Reason'], 'Manual')
+        inputs:
+          filePath: 'Libraries/Tools/Misc/checkDiff.ps1'
+          arguments: '-folderName $(folderName)
+                      -defRootFolder $(rootFolder)'
+      - task: AzurePowerShell@5
+        displayName: 'Create Initiative Definition'
+        inputs:
+          azureSubscription: $(rootMgServiceConnection)
+          ScriptPath: 'Libraries/Tools/Az/Create-InitiativeDef.ps1'
+          ScriptArguments: '-rootFolder $(rootFolder)
+                            -modifiedInitiatives $(initiatives)
+                            -managementGroupName $(managementGroupID)'
+          FailOnStandardError: false
+          azurePowerShellVersion: LatestVersion
+          pwsh: true

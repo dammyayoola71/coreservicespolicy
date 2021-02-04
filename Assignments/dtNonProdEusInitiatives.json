@@ -1,0 +1,62 @@
+{
+    "name": "DT NonProd EUS",
+    "scope": {
+        "type": "Subscription",
+        "Name": "SPOKE-DT-NONPROD-EUS" 
+    },
+    "globalParameters": {
+        "effect": {
+            "value": "Audit"
+        }
+    },
+    "globalNotScope": [
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-DEV-EUS-ADB-ayzuzfmm67ltq",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-INTG-EUS-ADB-m72y2xlgayhgq",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-SDBX-EUS-ADB-grt6zyvhnmxwi",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-UAT-EUS-ADB-5d6usy6o5tbni",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-ML-SDBX-EUS-ADB-apkovyn475jj4",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-ML-DEV-EUS-ADB-ld52r5kc7z76y",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-ML-INTG-EUS-ADB-xz6szyjtwyo2u",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-ML-UAT-EUS-ADB-4tlzizon6lqjc",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-ML-PERF-EUS-ADB-q6t7jkwo2pl4i",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-TRNG-EUS-ADB-2ibwvk5yez5qy",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-PERF-EUS-ADB-44tfqvafqh4ui",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-ML-TRNG-EUS-ADB-pk65cgpfbbob6",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-DT-BA-UAT-EUS-ADB-tn6w6q3dbfvhi",
+        "/subscriptions/7d34ca82-160e-4e25-a5af-a57c8f44ee73/resourceGroups/databricks-rg-sdbxdbeusdemo-grxifx2u2rv3o"
+    ],
+    "policies": [
+    ],
+    "initiatives": [
+        {
+            "initiativeName": "NFCU_Manage and Govern_Application Security",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Protect and Secure_Data Privacy and Protection",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Protect and Secure_Digital Identity",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Protect and Secure_Network and Endpoint Security",
+            "parameters": {
+
+            }
+        },
+        {
+            "initiativeName": "NFCU_Visibility and Monitoring_Cyber Defense",
+            "parameters": {
+
+            }
+        }
+    ]
+}

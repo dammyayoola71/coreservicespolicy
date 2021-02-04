@@ -1,0 +1,73 @@
+pool:
+  name: Cloud Pool
+  demands: Agent.OS -equals Windows_NT
+
+variables:
+  policyDefRootFolder: '"$(System.DefaultWorkingDirectory)/"'
+  folderName: "Policies"
+  policyManagementGroup: "4cb791f1-02d1-4a4e-8610-911ee57bb08c"
+  deploymentManagementGroup: "4cb791f1-02d1-4a4e-8610-911ee57bb08c"
+  deploymentSubscription: "bafec986-6607-483b-a320-3fc1e64b5a10"
+
+# specific path build
+trigger:
+  branches:
+    include:
+    - InfoSecDevelopment
+    - master
+  paths:
+    include:
+    - Policies/*
+
+stages:
+- stage: create_policy_def_infosec
+  displayName: 'Create Policy definition in InfoSec Subscription'
+  condition: and(always(), contains(variables['Build.SourceBranch'], 'refs/heads/InfoSecDevelopment'))
+  jobs:
+    - job:
+      steps:
+      - task: PowerShell@2
+        condition: ne(variables['Build.Reason'], 'Manual')
+        inputs:
+          filePath: 'Libraries/Tools/Misc/checkDiff.ps1'
+          arguments: '-folderName $(folderName)
+                      -defRootFolder $(policyDefRootFolder)'
+
+      - task: AzurePowerShell@4
+        displayName: 'Create Policy Definition'
+        inputs:
+          azureSubscription: AzureRM-INFOSEC-SDBX
+          ScriptPath: 'Libraries/Tools/Az/batchCreatePolicies.ps1'
+          ScriptArguments: '-policyDefRootFolder $(policyDefRootFolder) 
+                            -modifiedPolicies $(policies)
+                            -policyMG $(policyManagementGroup)
+                            -deployMG $null
+                            -deploySub $(deploymentSubscription)'
+          azurePowerShellVersion: LatestVersion
+        condition: and(succeeded(), ne(variables['policies'], ''))
+
+- stage: create_policy_def_Tenant_Root_Group
+  displayName: 'Create Policy definition in Tenant Root Group'
+  condition: and(always(), contains(variables['Build.SourceBranch'], 'refs/heads/Master'))
+  jobs:
+    - job:
+      steps:
+      - task: PowerShell@2
+        condition: ne(variables['Build.Reason'], 'Manual')
+        inputs:
+          filePath: 'Libraries/Tools/Misc/checkDiff.ps1'
+          arguments: '-folderName $(folderName)
+                      -defRootFolder $(policyDefRootFolder)'
+
+      - task: AzurePowerShell@4
+        displayName: 'Create Policy Definition'
+        inputs:
+          azureSubscription: AzureRM-Tenant-Root
+          ScriptPath: 'Libraries/Tools/Az/batchCreatePolicies.ps1'
+          ScriptArguments: '-policyDefRootFolder $(policyDefRootFolder)
+                            -modifiedPolicies $(policies)
+                            -policyMG $(policyManagementGroup)
+                            -deployMG $(deploymentManagementGroup)
+                            -deploySub $null'
+          azurePowerShellVersion: LatestVersion
+        condition: and(succeeded(), ne(variables['policies'], ''))

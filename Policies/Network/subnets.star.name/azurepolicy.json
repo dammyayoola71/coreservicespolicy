@@ -1,0 +1,66 @@
+{
+  "Name": "Network.virtualNetworks.subnets.star.name",
+  "properties": {
+    "displayName": "Network.virtualNetworks.subnets.star.name",
+    "description": "[Enter Description]",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allof": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "allof": [
+              {
+                "value": "[contains(parameters('subnets.star.name'), 'ALL')]",
+                "notEquals": true
+              },
+              {
+                "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                "notIn": "[parameters('subnets.star.name')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "subnets.star.name": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Subnet Name",
+          "description": "Virtual Networks have a 'default' subnet when created. 'GatewaySubnet' and 'AzureFirewallSubnet' are reserved for specific purposes. Separate subnet names with a comma (,) to allow for a list. Include the value 'ALL' to allow any name.",
+          "controlID": "N/A",
+          "risk": "Operational Risk"
+        },
+        "defaultValue": [
+          "default",
+          "GatewaySubnet",
+          "AzureFirewallSubnet",
+          "ALL"
+        ]
+      }
+    }
+  }
+}

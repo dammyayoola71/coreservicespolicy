@@ -1,0 +1,108 @@
+{
+  "Name": "Network Application Gateway Secure Settings",
+  "properties": {
+    "displayName": "Network Application Gateway Secure Settings",
+    "description": "Azure Policy for Network Application Gateway secure settings that include WAF Firewall, WAF enablement, and WAF v2 settings.",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allof": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/applicationGateways/sku.tier",
+                "notIn": "[parameters('sku.tier')]"
+              },
+              {
+                "field": "Microsoft.Network/applicationGateways/webApplicationFirewallConfiguration.firewallMode",
+                "notIn": "[parameters('webApplicationFirewallConfiguration.firewallMode')]"
+              },
+              {
+                "field": "Microsoft.Network/applicationGateways/webApplicationFirewallConfiguration.enabled",
+                "notIn": "[parameters('webApplicationFirewallConfiguration.enabled')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "sku.tier": {
+        "defaultValue": [
+          "Standard",
+          "Standard_v2",
+          "WAF",
+          "WAF_v2"
+        ],
+        "allowedValues": [
+          "Standard",
+          "Standard_v2",
+          "WAF",
+          "WAF_v2"
+        ],
+        "type": "array",
+        "metadata": {
+          "displayName": "sku.tier",
+          "description": "[Enter Parameter Description]"
+        }
+      },
+      "webApplicationFirewallConfiguration.firewallMode": {
+        "defaultValue": [
+          "Prevention",
+          "Detection",
+          null
+        ],
+        "allowedValues": [
+          "Prevention",
+          "Detection",
+          null
+        ],
+        "type": "array",
+        "metadata": {
+          "displayName": "Web Application Firewall Mode",
+          "description": "Mode of the Application Gateway's Web Application Firewall (WAF). Choose NULL (empty) if configuration accepts no Firewall."
+        }
+      },
+      "webApplicationFirewallConfiguration.enabled": {
+        "defaultValue": [
+          true,
+          false,
+          null
+        ],
+        "allowedValues": [
+          true,
+          false,
+          null
+        ],
+        "type": "array",
+        "metadata": {
+          "displayName": "Web Application Firewall Enabled",
+          "description": "Enabled status of the Application Gateway's Web Application Firewall (WAF). Choose NULL (empty) if configuration accepts no Firewall."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "Name": "Latest TLS version should be used in the App",
+  "properties": {
+    "displayName": "Latest TLS version should be used in the App",
+    "description": "Azure Policy for Azure App Services web sites configuration",
+    "mode": "All",
+    "metadata": {
+      "category": "Web",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "in": "[parameters('kind')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/config",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "name": "web",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/config/minTlsVersion",
+            "in": "[parameters('minTlsVersion')]"
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "appName": {
+                  "value": "[field('name')]"
+                },
+                "minTlsVersion": {
+                  "value": "[parameters('minTlsVersion')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "appName": {
+                    "type": "string"
+                  },
+                  "minTlsVersion": {
+                    "type": "array"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Web/sites/config",
+                    "apiVersion": "2018-11-01",
+                    "name": "[concat(parameters('appName'), '/web')]",
+                    "properties": {
+                      "minTlsVersion": "[last(parameters('minTlsVersion'))]"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "minTlsVersion": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Minimum TLS Version",
+          "description": "The minimum TLS Version allowed for App Service web sites. TLS 1.0 has known vulnerabilities and sites should only use if required."
+        },
+        "defaultValue": [
+          "1.0",
+          "1.1",
+          "1.2"
+        ],
+        "allowedValues": [
+          "1.0",
+          "1.1",
+          "1.2"
+        ]
+      },
+      "kind": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Kind of Web Sites",
+          "description": "Choose the type of Web Sites this Policy applies to",
+          "controlID": "N/A",
+          "risk": "Data Leakage"
+        },
+        "allowedValues": [
+          "api",
+          "app",
+          "functionapp"
+        ],
+        "defaultValue": [
+          "api",
+          "app",
+          "functionapp"
+        ]
+      }
+    }
+  }
+}

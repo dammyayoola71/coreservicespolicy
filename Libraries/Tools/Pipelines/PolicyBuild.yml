@@ -1,0 +1,60 @@
+variables:
+  policyDefRootFolder: '"$(System.DefaultWorkingDirectory)/PolicyDefinition"'
+  managmentGroupName: 'INFOSEC'
+
+# specific path build
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - PolicyDefinition/*
+
+stages:
+  - stage: DEV
+    jobs:
+      - deployment: 
+        environment: DEV
+        strategy:
+          runOnce:
+            deploy:
+              steps: 
+              - checkout: self
+              - task: PowerShell@2
+                inputs:
+                  filePath: 'DeploymentScripts/checkDiff.ps1'
+
+              - task: AzurePowerShell@4
+                displayName: 'Create Policy Definition'
+                enabled: false
+                inputs:
+                  azureSubscription: AzureRM-INFOSEC-SDBX
+                  ScriptPath: 'DeploymentScripts/batchCreatePolicies.ps1'
+                  ScriptArguments: '-policyDefRootFolder $(policyDefRootFolder) 
+                                    -managmentGroupName $(managmentGroupName)
+                                    -modifiedPolicies $(uniquModifiedPolicies)'
+                  azurePowerShellVersion: LatestVersion
+  - stage: INTG
+    dependsOn: DEV
+    jobs:
+      - deployment:
+        environment: INTG
+        strategy:
+          runOnce:
+            deploy:
+              steps: 
+              - checkout: self
+              - task: PowerShell@2
+                inputs:
+                  filePath: 'DeploymentScripts/checkDiff.ps1'
+
+              - task: AzurePowerShell@4
+                displayName: 'Create Policy Definition'
+                inputs:
+                  azureSubscription: AzureRM-INFOSEC-SDBX
+                  ScriptPath: 'DeploymentScripts/batchCreatePolicies.ps1'
+                  ScriptArguments: '-policyDefRootFolder $(policyDefRootFolder) 
+                                    -managmentGroupName $(managmentGroupName)
+                                    -modifiedPolicies $(uniquModifiedPolicies)'
+                  azurePowerShellVersion: LatestVersion

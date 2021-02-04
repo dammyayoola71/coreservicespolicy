@@ -1,0 +1,15 @@
+{
+  "if":  {
+    "allOf": [{
+      "field": "type",
+      "equals": "Microsoft.DataFactory/factories/pipelines"
+    },
+    {
+      "field": "Microsoft.DataFactory/factories/pipelines/activities[*].policy.secureOutput",
+      "notEquals": true
+    }]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

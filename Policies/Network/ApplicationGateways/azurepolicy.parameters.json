@@ -1,0 +1,67 @@
+{
+    "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+            "Audit",
+            "Deny"
+        ],
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Define the effect of the Policy as Audit or Deny"
+        }
+    },
+    "sku.tier": {
+        "defaultValue": [
+            "Standard", 
+            "Standard_v2", 
+            "WAF", 
+            "WAF_v2"
+        ],
+        "allowedValues": [
+          "Standard",
+          "Standard_v2",
+          "WAF",
+          "WAF_v2"
+        ],
+        "type": "array",
+        "metadata": {
+            "displayName": "sku.tier",
+            "description": "[Enter Parameter Description]"
+        }
+    },
+    "webApplicationFirewallConfiguration.firewallMode": {
+        "defaultValue": [
+            "Prevention",
+            "Detection",
+            null
+        ],
+        "allowedValues": [
+            "Prevention",
+            "Detection",
+            null
+        ],
+        "type": "array",
+        "metadata": {
+            "displayName": "Web Application Firewall Mode",
+            "description": "Mode of the Application Gateway's Web Application Firewall (WAF). Choose NULL (empty) if configuration accepts no Firewall."
+        }
+    },
+    "webApplicationFirewallConfiguration.enabled": {
+        "defaultValue": [
+            true,
+            false,
+            null
+        ],
+        "allowedValues": [
+            true,
+            false,
+            null
+        ],
+        "type": "array",
+        "metadata": {
+            "displayName": "Web Application Firewall Enabled",
+            "description": "Enabled status of the Application Gateway's Web Application Firewall (WAF). Choose NULL (empty) if configuration accepts no Firewall."
+        }
+    }
+}

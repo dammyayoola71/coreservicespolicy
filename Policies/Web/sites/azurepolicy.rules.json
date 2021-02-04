@@ -1,0 +1,32 @@
+{
+  "if": {
+    "allOf": [{
+        "field": "type",
+        "equals": "Microsoft.Web/sites"
+      },
+      {
+        "anyOf":[
+          {
+            "allOf": [
+              {
+                "field": "kind",
+                "in": "[parameters('kind')]"
+              },
+              {
+                "field": "Microsoft.Web/sites/httpsOnly",
+                "notIn": "[parameters('httpsOnly')]"
+              }
+            ]
+          },
+          {
+            "field": "Microsoft.Web/sites/clientCertEnabled",
+            "notIn": "[parameters('clientCertEnabled')]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

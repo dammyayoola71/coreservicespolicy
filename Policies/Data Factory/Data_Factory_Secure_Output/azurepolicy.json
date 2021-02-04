@@ -1,0 +1,43 @@
+{
+  "Name": "Data Factory Secure Output",
+  "properties": {
+    "displayName": "Data Factory Secure Output",
+    "description": "Policy for checking Data Factory pipeline activities for Secure Output",
+    "mode": "All",
+    "metadata": {
+      "category": "Unauthorized Access",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DataFactory/factories/pipelines"
+          },
+          {
+            "field": "Microsoft.DataFactory/factories/pipelines/activities[*].policy.secureOutput",
+            "notEquals": true
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      }
+    }
+  }
+}

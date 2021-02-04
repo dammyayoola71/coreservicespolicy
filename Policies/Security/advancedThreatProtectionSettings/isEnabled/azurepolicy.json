@@ -1,0 +1,110 @@
+{
+  "Name": "Deploy Azure Defender",
+  "properties": {
+    "displayName": "Deploy Azure Defender",
+    "description": "Azure Policy for Azure Defender.",
+    "mode": "All",
+    "metadata": {
+      "category": "Security",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": "[parameters('type')]"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Security/advancedThreatProtectionSettings",
+          "name": "current",
+          "existenceCondition": {
+            "field": "Microsoft.Security/advancedThreatProtectionSettings/isEnabled",
+            "in": "[parameters('isEnabled')]"
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "storageAccountName": {
+                    "type": "string"
+                  },
+                  "isEnabled": {
+                    "type": "array"
+                  }
+                },
+                "resources": [
+                  {
+                    "apiVersion": "2019-01-01",
+                    "type": "Microsoft.Storage/storageAccounts/providers/advancedThreatProtectionSettings",
+                    "name": "[concat(parameters('storageAccountName'), '/Microsoft.Security/current')]",
+                    "properties": {
+                      "isEnabled": "[first(parameters('isEnabled'))]"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "storageAccountName": {
+                  "value": "[field('name')]"
+                },
+                "isEnabled": {
+                  "value": "[parameters('isEnabled')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "type": {
+        "defaultValue": [
+          "Microsoft.Storage/storageAccounts"
+        ],
+        "allowedValues": [
+          "Microsoft.Storage/storageAccounts"
+        ],
+        "type": "array",
+        "metadata": {
+          "displayName": "Resource Type",
+          "description": "Array of Resource Types that can have Advanced Threat Protection enabled"
+        }
+      },
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Disabled"
+        }
+      },
+      "isEnabled": {
+        "defaultValue": [
+          true,
+          false
+        ],
+        "allowedValues": [
+          true,
+          false
+        ],
+        "type": "array",
+        "metadata": {
+          "displayName": "Enabled",
+          "description": "Determine if Advanced Threat Protection is Enabled"
+        }
+      }
+    }
+  }
+}

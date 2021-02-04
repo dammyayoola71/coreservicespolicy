@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allof": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "allof": [
+          {
+            "value": "[contains(parameters('subnets.star.name'), 'ALL')]",
+            "notEquals": true
+          },
+          {
+            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+            "notIn": "[parameters('subnets.star.name')]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

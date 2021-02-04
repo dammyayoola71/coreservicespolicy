@@ -1,0 +1,76 @@
+{
+  "Name": "NFCU_Protect and Secure_Digital Identity",
+  "Properties": {
+    "displayName": "NFCU_Protect and Secure_Digital Identity",
+    "description": "This initiative contains Digital Identity policies involving Authentication, and managed identity usage for Azure resources.",
+    "metadata": [
+      {
+        "category": "Digital Identity"
+      }
+    ],
+    "policyDefinitionGroups": [],
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "ManagedIdentitysecuresettings",
+        "policyDefinitionName": "Managed Identity secure settings",    
+        "parameters": {
+          "identity.type.value": {
+            "value": [
+              "SystemAssigned"
+            ]
+          },
+          "identity.type.resourceTypes": {
+            "value": [
+              "Microsoft.Compute/virtualMachines",
+              "Microsoft.RecoveryServices/vaults"
+            ]
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "AuthenticationshouldbeenabledonyourFunctionapp",
+        "policyDefinitionName": "c75248c1-ea1d-4a9c-8fc9-29a6aabd5da8",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "AuthenticationshouldbeenabledonyourWebapp",
+        "policyDefinitionName": "95bccee9-a7f8-4bec-9ee9-62c3473701fc",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "AuthenticationshouldbeenabledonyourAPIapp",
+        "policyDefinitionName": "c4ebc54a-46e1-481a-bee2-d4411e95d828",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      }
+    ]
+  }
+}

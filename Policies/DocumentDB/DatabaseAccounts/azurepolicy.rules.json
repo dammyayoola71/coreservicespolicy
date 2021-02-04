@@ -1,0 +1,25 @@
+{
+    "if":  {
+               "allOf":  [
+                             {
+                                 "field":  "type",
+                                 "equals":  "Microsoft.DocumentDB/databaseAccounts"
+                             },
+                             {
+                                 "anyOf":  [
+                                               {
+                                                   "field":  "Microsoft.DocumentDB/databaseAccounts/enableAutomaticFailover",
+                                                   "notIn":  "[parameters('enableAutomaticFailover')]"
+                                               },
+                                               {
+                                                   "field":  "Microsoft.DocumentDB/databaseAccounts/consistencyPolicy.defaultConsistencyLevel",
+                                                   "notIn":  "[parameters('defaultConsistencyLevel')]"
+                                               }
+                                           ]
+                             }
+                         ]
+           },
+    "then":  {
+                 "effect":  "[parameters('effect')]"
+             }
+}

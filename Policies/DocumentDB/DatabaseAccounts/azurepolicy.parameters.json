@@ -1,0 +1,54 @@
+{
+    "effect":  {
+                   "type":  "string",
+                   "defaultValue":  "Audit",
+                   "allowedValues":  [
+                                         "Audit",
+                                         "Deny"
+                                     ],
+                   "metadata":  {
+                                    "displayName":  "Effect",
+                                    "description":  "Define the effect of the Policy as Audit or Deny"
+                                }
+               },
+    "enableAutomaticFailover":  {
+                                    "type":  "array",
+                                    "defaultValue":  [
+                                                         true,
+                                                         false
+                                                     ],
+                                    "allowedValues":  [
+                                                          true,
+                                                          false
+                                                      ],
+                                    "metadata":  {
+                                                     "displayName":  "Enable Automatic Failover",
+                                                     "description":  "Acceptable values for the Cosmos DB Database Account for Enabling Automatic Failover",
+                                                     "controlID":  "[Control ID]",
+                                                     "risk":  "[Intrusion, Data leakage, Operational Risk, Internal Fraud, Regulatory]"
+                                                 }
+                                },
+    "defaultConsistencyLevel":  {
+                                    "type":  "array",
+                                    "defaultValue":  [
+                                                         "Strong",
+                                                         "BoundedStaleness",
+                                                         "Session",
+                                                         "ConsistentPrefix",
+                                                         "Eventual"
+                                                     ],
+                                    "allowedValues":  [
+                                                          "Strong",
+                                                          "BoundedStaleness",
+                                                          "Session",
+                                                          "ConsistentPrefix",
+                                                          "Eventual"
+                                                      ],
+                                    "metadata":  {
+                                                     "displayName":  "Default Consistency Level",
+                                                     "description":  "Acceptable values for the Cosmos DB Database Account Default Consistency Level",
+                                                     "controlID":  "[Control ID]",
+                                                     "risk":  "[Intrusion, Data leakage, Operational Risk, Internal Fraud, Regulatory]"
+                                                 }
+                                }
+}

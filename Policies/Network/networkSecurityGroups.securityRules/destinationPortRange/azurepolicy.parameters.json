@@ -1,0 +1,31 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "Audit",
+    "allowedValues": [
+      "Audit",
+      "Deny"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Define the effect of the Policy as Audit or Deny"
+    }
+  },
+  "destinationPortRange": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Destination Port",
+      "description": "Destination Port for the Network Security Group. 3389: Remote Desktop Protocol. 22: SSH",
+      "controlID": "N/A",
+      "risk": "Operational Risk"
+    },
+    "defaultValue": [
+      22,
+      3389
+    ],
+    "allowedValues": [
+      22,
+      3389
+    ]
+  }
+}

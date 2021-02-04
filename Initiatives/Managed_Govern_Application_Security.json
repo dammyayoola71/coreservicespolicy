@@ -1,0 +1,107 @@
+{
+    "name": "NFCU_Manage and Govern_Application Security",
+    "properties": {
+        "displayName": "NFCU_Manage and Govern_Application Security",
+        "description": "This initiative contains Application Security policies involving app client certificates, Secure transfer protocols, remote debugging access, and authorization access rules.",
+        "metadata": [
+            {
+                "category": "Application Security"
+            }
+        ],
+        "policyDefinitionGroups": [],
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Define the effect of the Policy as Audit or Deny"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny"
+                ],
+                "defaultValue": "Audit"
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "RedisCacheSecureSettings",
+                "policyDefinitionName": "Redis Cache secure settings",
+                "parameters": {
+                    "minimumTlsVersion": {
+                        "value": [
+                            "1.2"
+                        ]
+                    },
+                    "enableNonSslPort": {
+                        "value": [
+                            true
+                        ]
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "RemotedebuggingshouldbeturnedoffforAPIApps",
+                "policyDefinitionName": "e9c8d085-d9cc-4b17-9cdc-059f1f01f19e",
+                "parameters": {
+                    "effect": {
+                        "value": "AuditIfNotExists"
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "RemotedebuggingshouldbeturnedoffforFunctionApps",
+                "policyDefinitionName": "0e60b895-3786-45da-8377-9c6b4b6ac5f9",
+                "parameters": {
+                    "effect": {
+                        "value": "AuditIfNotExists"
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "RemotedebuggingshouldbeturnedoffforWebApplications",
+                "policyDefinitionName": "cb510bfd-1cba-4d9f-a230-cb0976f4bb71",
+                "parameters": {
+                    "effect": {
+                        "value": "AuditIfNotExists"
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "AllauthorizationrulesexceptRootManageSharedAccessKeyshouldberemovedfromEventHubnamespace",
+                "policyDefinitionName": "b278e460-7cfc-4451-8294-cccc40a940d7",
+                "parameters": {}
+            },
+            {
+                "policyDefinitionReferenceId": "AllauthorizationrulesexceptRootManageSharedAccessKeyshouldberemovedfromServiceBusnamespace",
+                "policyDefinitionName": "a1817ec0-a368-432a-8057-8371e17ac6ee",
+                "parameters": {}
+            },
+            {
+                "policyDefinitionReferenceId": "APIAppshouldonlybeaccessibleoverHTTPS",
+                "policyDefinitionName": "b7ddfbdc-1260-477d-91fd-98bd9be789a6",
+                "parameters": {}
+            },
+            {
+                "policyDefinitionReferenceId": "FunctionAppshouldonlybeaccessibleoverHTTPS",
+                "policyDefinitionName": "6d555dd1-86f2-4f1c-8ed7-5abae7c6cbab",
+                "parameters": {}
+            },
+            {
+                "policyDefinitionReferenceId": "EnsureAPIapphas'ClientCertificates(Incomingclientcertificates)'setto'On'",
+                "policyDefinitionName": "0c192fe8-9cbb-4516-85b3-0ade8bd03886",
+                "parameters": {}
+            },
+            {
+                "policyDefinitionReferenceId": "Ensure WEB app has 'Client Certificates (Incoming client certificates)' set to 'On'",
+                "policyDefinitionName": "5bb220d9-2698-4ee4-8404-b9c30c9df609",
+                "parameters": {}
+            },
+            {
+                "policyDefinitionReferenceId": "EnsureFunctionapphas'ClientCertificates(Incomingclientcertificates)'setto'On'",
+                "policyDefinitionName": "eaebaea7-8013-4ceb-9d14-7eb32271373c",
+                "parameters": {}
+            }
+        ]
+    }
+}

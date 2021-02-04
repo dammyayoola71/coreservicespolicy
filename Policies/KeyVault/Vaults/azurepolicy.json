@@ -1,0 +1,156 @@
+{
+  "Name": "Key Vault Secure Settings",
+  "properties": {
+    "displayName": "Key Vault Secure Settings",
+    "description": "Azure Policy for Key Vaults",
+    "mode": "All",
+    "metadata": {
+      "category": "KeyVault",
+      "version": "1.0"
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.KeyVault/vaults/enabledForDeployment",
+                "notIn": "[parameters('enabledForDeployment')]"
+              },
+              {
+                "field": "Microsoft.KeyVault/vaults/enabledForDiskEncryption",
+                "notIn": "[parameters('enabledForDiskEncryption')]"
+              },
+              {
+                "field": "Microsoft.KeyVault/vaults/enabledForTemplateDeployment",
+                "notIn": "[parameters('enabledForTemplateDeployment')]"
+              },
+              {
+                "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
+                "notIn": "[parameters('enablePurgeProtection')]"
+              },
+              {
+                "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
+                "notIn": "[parameters('enableSoftDelete')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Define the effect of the Policy as Audit or Deny"
+        }
+      },
+      "enabledForDeployment": {
+        "type": "array",
+        "defaultValue": [
+          true,
+          false,
+          null
+        ],
+        "allowedValues": [
+          true,
+          false,
+          null
+        ],
+        "metadata": {
+          "displayName": "Virtual Machines for deployment",
+          "description": "Acceptable values for the Key Vault to enable access to Virtual Machines for deployment. If never set, Enabled for Deployment defaults to Disabled and returns NULL (empty). Once set, if then disabled, Enabled for Deployment returns False.",
+          "controlID": "[Control ID]",
+          "risk": "[Intrusion, Data leakage, Operational Risk, Internal Fraud, Regulatory]"
+        }
+      },
+      "enabledForDiskEncryption": {
+        "type": "array",
+        "defaultValue": [
+          true,
+          false,
+          null
+        ],
+        "allowedValues": [
+          true,
+          false,
+          null
+        ],
+        "metadata": {
+          "displayName": "Azure Disk Encryption for volume encryption",
+          "description": "Acceptable values for the Key Vault to enable access to Azure Disk Encryption for volume encryption. If never set, Disk Encryption defaults to Disabled and returns NULL (empty). Once set, if then disabled, Disk Encryption returns False.",
+          "controlID": "[Control ID]",
+          "risk": "[Intrusion, Data leakage, Operational Risk, Internal Fraud, Regulatory]"
+        }
+      },
+      "enabledForTemplateDeployment": {
+        "type": "array",
+        "defaultValue": [
+          true,
+          false,
+          null
+        ],
+        "allowedValues": [
+          true,
+          false,
+          null
+        ],
+        "metadata": {
+          "displayName": "Enable Access to Azure Resource Manager for template deployment",
+          "description": "Acceptable values for the Key Vault to enable access to Azure Resource Manager for template deployment. If never set, template deployment defaults to Disabled and returns NULL (empty). Once set, if then disabled, template deployment returns False.",
+          "controlID": "[Control ID]",
+          "risk": "[Intrusion, Data leakage, Operational Risk, Internal Fraud, Regulatory]"
+        }
+      },
+      "enablePurgeProtection": {
+        "type": "array",
+        "defaultValue": [
+          true,
+          false,
+          null
+        ],
+        "allowedValues": [
+          true,
+          false,
+          null
+        ],
+        "metadata": {
+          "displayName": "Enable Purge Protection on the Key Vault",
+          "description": "Indicate whether Key Vaults should have Purge Protection enabled. If never set, Purge Protection defaults to Disabled and returns NULL (empty). Once set, if then disabled, Purge Protection returns False.",
+          "controlID": "[Control ID]",
+          "risk": "[Intrusion, Data leakage, Operational Risk, Internal Fraud, Regulatory]"
+        }
+      },
+      "enableSoftDelete": {
+        "type": "array",
+        "defaultValue": [
+          true,
+          null
+        ],
+        "allowedValues": [
+          true,
+          null
+        ],
+        "metadata": {
+          "displayName": "Enable Soft Delete on the Key Vault",
+          "description": "Indicate whether Key Vaults should have Soft Delete enabled. Soft Delete can only be disabled at creation of the Key Vault and the value in Policy returns NULL (empty) so select that if testing for disabled Soft Delete.",
+          "controlID": "[Control ID]",
+          "risk": "[Intrusion, Data leakage, Operational Risk, Internal Fraud, Regulatory]"
+        }
+      }
+    }
+  }
+}
